@@ -11,8 +11,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tela de Login',
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: Login(),
+      theme: ThemeData(primarySwatch: Colors.blueGrey),
+      home: const Login(),
     );
   }
 }
