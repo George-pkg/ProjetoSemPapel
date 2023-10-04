@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Tela de Login',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       home: const Login(),
