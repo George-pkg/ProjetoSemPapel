@@ -16,10 +16,10 @@ class MoedaModel {
   factory MoedaModel.fromMap(Map<String, dynamic> map) {
     return MoedaModel(
       Name: map['name'],
-      Real: Real,
-      Dolar: Dolar,
-      Euro: Euro,
-      Biticoin: Biticoin,
+      Real: map[''],
+      Dolar: map[''],
+      Euro: map[''],
+      Biticoin: map[''],
     );
   }
 }

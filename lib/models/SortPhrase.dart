@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class SortPhrase {
   final String Name;
   final String Phrase;
@@ -7,7 +9,7 @@ class SortPhrase {
     required this.Phrase,
   });
 
-  factory SortPhrase.fromMap(Map<String, dynamic> map) {
+  factory SortPhrase.fromjason(Map<String, dynamic> map) {
     return SortPhrase(
       Name: map['id'],
       Phrase: map['advice'],

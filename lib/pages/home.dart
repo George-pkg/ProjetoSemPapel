@@ -4,6 +4,33 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+Future<SortPhrase> phrase() async {
+  final response = await http.get(Uri.parse('https://api.chucknorris.io/jokes/random'));
+
+  if (response.statusCode == 200) {
+    return SortPhrase.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Erro ao se conectar ao Servidor');
+  }
+}
+
+class SortPhrase {
+  final String name;
+  final String phrase;
+
+  SortPhrase({
+    required this.name,
+    required this.phrase,
+  });
+
+  factory SortPhrase.fromJson(Map<String, dynamic> json) {
+    return SortPhrase(
+      name: json['id'],
+      phrase: json['value'],
+    );
+  }
+}
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -12,14 +39,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Future<List> SortPhrase() async {
-    var url = Uri.parse('https://api.adviceslip.com/advice');
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      return jsonDecode(utf8.decode(response.bodyBytes));
-    } else {
-      throw Exception('Erro ao se conectar ao Servidor');
-    }
+  late Future<SortPhrase> futureSortPhrase;
+
+  @override
+  void initState() {
+    super.initState();
+    futureSortPhrase = phrase();
   }
 
   @override
@@ -31,17 +56,36 @@ class _HomeState extends State<Home> {
               width: 450,
               height: 500,
               decoration: const BoxDecoration(
-                  color: Colors.deepPurple, borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Column(
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => const Login()));
-                    },
-                    child: Text('voltar'),
-                  ),
-                ],
+                  color: Color.fromARGB(223, 207, 194, 216),
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 25, right: 25),
+                child: Column(
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => const Login()));
+                      },
+                      child: const Text('voltar'),
+                    ),
+                    const SizedBox(height: 180),
+                    const Text('Chuck Norris quotes:', style: TextStyle(fontSize: 22)),
+                    const SizedBox(height: 30),
+                    FutureBuilder(
+                      future: futureSortPhrase,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(snapshot.data!.phrase, style: const TextStyle(fontSize: 18),);
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+
+                        return const CircularProgressIndicator();
+                      },
+                    )
+                  ],
+                ),
               )),
         ));
   }
