@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/widgets/login.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -31,14 +31,14 @@ class SortPhrase {
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class API extends StatefulWidget {
+  const API({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<API> createState() => _APIState();
 }
 
-class _HomeState extends State<Home> {
+class _APIState extends State<API> {
   late Future<SortPhrase> futureSortPhrase;
 
   @override
@@ -50,6 +50,36 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            TextButton(
+                onPressed: () => Get.toNamed('/HomePage'),
+                child: const Text(
+                  'Home',
+                  style: TextStyle(color: Colors.white),
+                )),
+            TextButton(
+              style: const ButtonStyle(),
+              onPressed: () {
+                Get.toNamed('/HomePage/API');
+              },
+              child: const Text(
+                'API',
+                style: TextStyle(color: Colors.blueAccent),
+              ),
+            ),
+            TextButton(
+              style: const ButtonStyle(),
+              onPressed: () {
+                Get.toNamed('');
+              },
+              child: const Text(
+                'Documents',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
         backgroundColor: const Color.fromARGB(255, 239, 239, 239),
         body: Center(
           child: Container(
@@ -64,8 +94,7 @@ class _HomeState extends State<Home> {
                   children: <Widget>[
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const Login()));
+                        Get.toNamed('/HomePage');
                       },
                       child: const Text('voltar'),
                     ),
@@ -76,7 +105,10 @@ class _HomeState extends State<Home> {
                       future: futureSortPhrase,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text(snapshot.data!.phrase, style: const TextStyle(fontSize: 18),);
+                          return Text(
+                            snapshot.data!.phrase,
+                            style: const TextStyle(fontSize: 18),
+                          );
                         } else if (snapshot.hasError) {
                           return Text('${snapshot.error}');
                         }

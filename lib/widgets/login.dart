@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/home.dart';
+import 'package:get/get.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -61,10 +61,7 @@ class _LoginState extends State<Login> {
                         'ENTRAR',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const Home()));
-                      },
+                      onPressed: () => Get.toNamed('/HomePage'),
                     ),
                   )
                 ],
