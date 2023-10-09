@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_app/models/appBarDynamic.dart';
 
 class homePage extends StatefulWidget {
   const homePage({super.key});
@@ -12,36 +15,45 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            TextButton(
-                onPressed: () => Get.toNamed('/HomePage'),
-                child: const Text(
-                  'Home',
-                  style: TextStyle(color: Colors.white),
-                )),
-            TextButton(
-              style: const ButtonStyle(),
-              onPressed: () {
-                Get.toNamed('/HomePage/API');
-              },
-              child: const Text(
-                'API',
-                style: TextStyle(color: Colors.white),
+        appBar: appBarDynamic(),
+        backgroundColor: const Color.fromARGB(255, 239, 239, 239),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    height: 300,
+                    width: 300,
+                    color: Colors.green,
+                  ),
+                  Container(
+                    height: 200,
+                    width: 200,
+                    color: Colors.blueGrey,
+                  ),
+                  Text(Get.currentRoute)
+                ],
               ),
-            ),
-            TextButton(
-              style: const ButtonStyle(),
-              onPressed: () {
-                Get.toNamed('');
-              },
-              child: const Text(
-                'Documents',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: const Color.fromARGB(255, 239, 239, 239));
+              Row(
+                children: [
+                  Container(
+                    height: 200,
+                    width: 200,
+                    color: Colors.blueGrey,
+                  ),
+                  Container(
+                    height: 300,
+                    width: 300,
+                    color: Colors.green,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ));
   }
 }

@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:my_app/models/appBarDynamic.dart';
+
 Future<SortPhrase> phrase() async {
   final response = await http.get(Uri.parse('https://api.chucknorris.io/jokes/random'));
 
@@ -50,36 +52,7 @@ class _APIState extends State<API> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            TextButton(
-                onPressed: () => Get.toNamed('/HomePage'),
-                child: const Text(
-                  'Home',
-                  style: TextStyle(color: Colors.white),
-                )),
-            TextButton(
-              style: const ButtonStyle(),
-              onPressed: () {
-                Get.toNamed('/HomePage/API');
-              },
-              child: const Text(
-                'API',
-                style: TextStyle(color: Colors.blueAccent),
-              ),
-            ),
-            TextButton(
-              style: const ButtonStyle(),
-              onPressed: () {
-                Get.toNamed('');
-              },
-              child: const Text(
-                'Documents',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
+        appBar: appBarDynamic(),
         backgroundColor: const Color.fromARGB(255, 239, 239, 239),
         body: Center(
           child: Container(

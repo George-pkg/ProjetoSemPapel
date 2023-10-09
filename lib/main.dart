@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/API.dart';
+import 'package:my_app/pages/Documents.dart';
 import 'package:my_app/pages/homePage.dart';
 import 'package:my_app/widgets/login.dart';
 
@@ -16,10 +17,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Tela de Login',
         theme: ThemeData(primarySwatch: Colors.blueGrey),
+
+        // gestor de paginas
         getPages: [
           GetPage(name: '/', page: () => const Login(), children: [
             GetPage(name: '/HomePage', page: () => const homePage()),
-            GetPage(name: '/HomePage/API', page: () => const API())
+            GetPage(name: '/HomePage/API', page: () => const API()),
+            GetPage(name: '/HomePage/Documents', page: () => const Documents())
           ])
         ]);
   }
