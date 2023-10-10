@@ -1,17 +1,15 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_app/models/appBarDynamic.dart';
 
-class homePage extends StatefulWidget {
-  const homePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<homePage> createState() => _homePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _homePageState extends State<homePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,33 +20,85 @@ class _homePageState extends State<homePage> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              //  Row top
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+
+                  // Conatainer 1 == "Oil Ship - F01 NB3002"
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 203, 208, 228),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    height: 300,
+                    width: 300,
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Oil Ship - F01 NB3002',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Image.asset('../assets/image/navio.png'),
+                        TextButton(
+                            onPressed: () => Get.toNamed('/Documents/OilShip'),
+                            style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                            child: const Text('OPEN', style: TextStyle(color: Colors.black))),
+                      ],
+                    ),
+                  ),
+
+                  // Container 2 == "Factory - Robson & Robson"
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 203, 208, 228),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    height: 300,
+                    width: 300,
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Factory - Robson & Robson'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            height: 150,
+                            child: Image.asset('../assets/image/factory.png'),
+                          ),
+                        ),
+                        TextButton(
+                            onPressed: () => Get.toNamed('/Documents/FactoryR&R'),
+                            style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                            child: const Text('OPEN', style: TextStyle(color: Colors.black))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+
+              // Row bottom
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 203, 208, 228),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                     height: 300,
                     width: 300,
-                    color: Colors.green,
-                  ),
-                  Container(
-                    height: 200,
-                    width: 200,
-                    color: Colors.blueGrey,
-                  ),
-                  Text(Get.currentRoute)
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    height: 200,
-                    width: 200,
-                    color: Colors.blueGrey,
+                    padding: const EdgeInsets.all(15),
                   ),
                   Container(
                     height: 300,
                     width: 300,
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 203, 208, 228),
                   ),
                 ],
               )

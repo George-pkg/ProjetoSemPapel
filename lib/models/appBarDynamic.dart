@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 // AppBar na qual seleciona a pagina selecionada
 
 /* 
@@ -10,13 +9,11 @@ import 'package:get/get.dart';
 */
 appBarDynamic() {
   var route = Get.currentRoute;
- 
+
   if (route == '/HomePage') {
     return AppBar(
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {},
-      ),
+      automaticallyImplyLeading: false,
+      title: const Text("No Papel"),
       backgroundColor: const Color.fromARGB(255, 55, 81, 126),
       actions: <Widget>[
         TextButton(
@@ -28,7 +25,7 @@ appBarDynamic() {
         TextButton(
           style: const ButtonStyle(),
           onPressed: () {
-            Get.toNamed('/HomePage/API');
+            Get.toNamed('/API');
           },
           child: const Text(
             'API',
@@ -38,7 +35,7 @@ appBarDynamic() {
         TextButton(
           style: const ButtonStyle(),
           onPressed: () {
-            Get.toNamed('/HomePage/Documents');
+            Get.toNamed('/Documents');
           },
           child: const Text(
             'Documents',
@@ -47,8 +44,12 @@ appBarDynamic() {
         ),
       ],
     );
-  } else if (route == '/HomePage/API') {
+  } else if (route.contains('/API')) {
     return AppBar(
+      automaticallyImplyLeading: false,
+      leading:
+          IconButton(onPressed: () => Get.toNamed('/HomePage'), icon: const Icon(Icons.arrow_back_ios)),
+      title: const Text("No Papel"),
       backgroundColor: const Color.fromARGB(255, 55, 81, 126),
       actions: <Widget>[
         TextButton(
@@ -60,7 +61,7 @@ appBarDynamic() {
         TextButton(
           style: const ButtonStyle(),
           onPressed: () {
-            Get.toNamed('/HomePage/API');
+            Get.toNamed('/API');
           },
           child: const Text(
             'API',
@@ -70,7 +71,7 @@ appBarDynamic() {
         TextButton(
           style: const ButtonStyle(),
           onPressed: () {
-            Get.toNamed('/HomePage/Documents');
+            Get.toNamed('/Documents');
           },
           child: const Text(
             'Documents',
@@ -79,8 +80,12 @@ appBarDynamic() {
         ),
       ],
     );
-  } else if (route == '/HomePage/Documents') {
+  } else if (route.contains('/Documents')) {
     return AppBar(
+      automaticallyImplyLeading: false,
+      leading:
+          IconButton(onPressed: () => Get.toNamed('/HomePage'), icon: const Icon(Icons.arrow_back_ios)),
+      title: const Text("No Papel"),
       backgroundColor: const Color.fromARGB(255, 55, 81, 126),
       actions: <Widget>[
         TextButton(
@@ -92,7 +97,7 @@ appBarDynamic() {
         TextButton(
           style: const ButtonStyle(),
           onPressed: () {
-            Get.toNamed('/HomePage/API');
+            Get.toNamed('/API');
           },
           child: const Text(
             'API',
@@ -102,7 +107,7 @@ appBarDynamic() {
         TextButton(
           style: const ButtonStyle(),
           onPressed: () {
-            Get.toNamed('/HomePage/Documents');
+            Get.toNamed('/Documents');
           },
           child: const Text(
             'Documents',
@@ -111,5 +116,5 @@ appBarDynamic() {
         ),
       ],
     );
-  }
+  } 
 }
