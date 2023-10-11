@@ -84,7 +84,7 @@ appBarDynamic() {
     return AppBar(
       automaticallyImplyLeading: false,
       leading:
-          IconButton(onPressed: () => Get.toNamed('/HomePage'), icon: const Icon(Icons.arrow_back_ios)),
+          IconButton(onPressed: () => Get.toNamed('/Documents'), icon: const Icon(Icons.arrow_back_ios)),
       title: const Text("No Papel"),
       backgroundColor: const Color.fromARGB(255, 55, 81, 126),
       actions: <Widget>[
