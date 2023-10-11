@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/API.dart';
-import 'package:my_app/pages/Documents.dart';
-import 'package:my_app/pages/Documents/FactoryR&R.dart';
-import 'package:my_app/pages/Documents/OilShip.dart';
+import 'package:get/get.dart';
+
 import 'package:my_app/pages/HomePage.dart';
 import 'package:my_app/widgets/login.dart';
+import 'package:my_app/pages/Documents.dart';
+import 'package:my_app/pages/Documents/FactoryR&R.dart';
+import 'package:my_app/pages/Documents/OilArea.dart';
+import 'package:my_app/pages/Documents/OilShip.dart';
+import 'package:my_app/pages/Documents/AtomicPower.dart';
 
-import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,7 +30,9 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/API', page: () => const API()),
             GetPage(name: '/Documents', page: () => const Documents(), children: [
               GetPage(name: '/OilShip', page: () => const OilShip()),
-              GetPage(name: '/FactoryR&R', page: () => const FactoryReR())
+              GetPage(name: '/FactoryR&R', page: () => const FactoryReR()),
+              GetPage(name: '/OilArea', page: () => const OilArea()),
+              GetPage(name: '/AtomicPower', page: () => const AtomicPower())
             ])
           ])
         ]);
