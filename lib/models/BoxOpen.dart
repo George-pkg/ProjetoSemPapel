@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 class BoxOpen extends StatelessWidget {
   final String title;
   final String img;
-  final String get;
+  final String opi;
 
-  BoxOpen(this.title, this.img, this.get);
+  BoxOpen(this.title, this.img, this.opi,{super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +21,13 @@ class BoxOpen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('$title', style: TextStyle(fontSize: 20)),
+          Text(title, style: const TextStyle(fontSize: 20)),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: SizedBox(height: 150, child: Image.asset('$img')),
+            child: SizedBox(height: 150, child: Image.asset(img)),
           ),
           TextButton(
-              onPressed: () => Get.toNamed('$get'),
+              onPressed: () => Get.toNamed(opi),
               style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.blue)),
               child: const Text('OPEN', style: TextStyle(color: Colors.black))),
         ],

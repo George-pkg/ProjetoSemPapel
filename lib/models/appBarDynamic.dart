@@ -47,9 +47,10 @@ appBarDynamic() {
   } else if (route.contains('/API')) {
     return AppBar(
       automaticallyImplyLeading: false,
-      leading:
-          IconButton(onPressed: () => Get.toNamed('/HomePage'), icon: const Icon(Icons.arrow_back_ios)),
-      title: const Text("No Papel"),
+      title: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+              onTap: () => Get.toNamed('/HomePage'), child: const Text("No Papel"))),
       backgroundColor: const Color.fromARGB(255, 55, 81, 126),
       actions: <Widget>[
         TextButton(
@@ -83,9 +84,12 @@ appBarDynamic() {
   } else if (route.contains('/Documents')) {
     return AppBar(
       automaticallyImplyLeading: false,
-      leading:
-          IconButton(onPressed: () => Get.toNamed('/Documents'), icon: const Icon(Icons.arrow_back_ios)),
-      title: const Text("No Papel"),
+      leading: IconButton(
+          onPressed: () => Get.toNamed('/Documents'), icon: const Icon(Icons.arrow_back_ios)),
+      title: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+              onTap: () => Get.toNamed('/HomePage'), child: const Text("No Papel"))),
       backgroundColor: const Color.fromARGB(255, 55, 81, 126),
       actions: <Widget>[
         TextButton(
@@ -116,5 +120,5 @@ appBarDynamic() {
         ),
       ],
     );
-  } 
+  }
 }
