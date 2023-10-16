@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:my_app/models/PainelList.dart';
 
 import 'package:my_app/models/appBarDynamic.dart';
 
@@ -18,23 +18,9 @@ class _OilShipState extends State<OilShip> {
       backgroundColor: const Color.fromARGB(255, 239, 239, 239),
       body: Column(
         children: [
-          Flexible(
+          Expanded(
             flex: 10,
-            child: ListView.separated(
-              padding: const EdgeInsets.only(right: 25, left: 25, top: 15, bottom: 20),
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  leading: Image.asset('../assets/image/folder.png', height: 40),
-                  title: Text('Pasta $index'),
-                  onTap: () {
-                    // print(index);
-                  },
-                );
-              },
-              separatorBuilder: (__, _) => const Divider(),
-              itemCount: 21,
-            ),
+            child: MouseRegion(cursor: SystemMouseCursors.click,child: PainelList()),
           )
         ],
       ),

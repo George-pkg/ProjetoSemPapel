@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/models/PainelList.dart';
-import 'package:my_app/models/appBarDynamic.dart';
 import 'package:my_app/utils/painel.dart';
 
-class FactoryReR extends StatefulWidget {
-  const FactoryReR({super.key});
+class PainelList extends StatefulWidget {
+  // final int numSort;
+  const PainelList({Key? key}) : super(key: key);
 
   @override
-  State<FactoryReR> createState() => _FactoryReRState();
+  State<PainelList> createState() => _PainelListState();
 }
 
-class _FactoryReRState extends State<FactoryReR> {
-  final List<Painel> _painel = Painel.gerateItems(5);
+class _PainelListState extends State<PainelList> {
+  final List<Painel> _painel = Painel.gerateItems(10);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarDynamic(),
-      backgroundColor: const Color.fromARGB(255, 239, 239, 239),
-      body: ListView(shrinkWrap: true, children: [
+    return ListView(shrinkWrap: true, children: [
       ExpansionPanelList(
         expansionCallback: (int index, bool isExpanded) {
           setState(() => _painel[index].isExpanded = isExpanded);
@@ -56,7 +52,8 @@ class _FactoryReRState extends State<FactoryReR> {
           );
         }).toList(),
       )
-    ])
-    );
+    ]);
   }
 }
+
+
