@@ -1,0 +1,25 @@
+[
+    {"box" : {
+        "boxin" : 1,
+        "Title" : "Oil Ship - F01 NB3002",
+        "image" : "."
+    }},
+    
+    {"box" : {
+        "boxin" : 2,
+        "Title" : "Factory - Robson & Robson",
+        "image" : "."
+    }},
+
+    {"box" : {
+        "boxin" : 3,
+        "Title" : "Oil Area",
+        "image" : "."
+    }},
+
+    {
+        "box" : 4,
+        "Title" : "Atomic Power Plant",
+        "image" : "."
+    }
+]

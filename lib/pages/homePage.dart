@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_app/models/BoxOpen.dart';
 import 'package:my_app/models/appBarDynamic.dart';
 
@@ -19,7 +20,6 @@ class _HomePageState extends State<HomePage> {
           child: Center(
               child: Container(
             padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-            height: 650,
             width: 900,
             child: Column(mainAxisSize: MainAxisSize.max, children: [
               //  Row top
@@ -30,17 +30,19 @@ class _HomePageState extends State<HomePage> {
                 BoxOpen('Factory - Robson & Robson', '../assets/image/factory.png',
                     '/Documents/FactoryR&R')
               ]),
-        
+
               const SizedBox(
                 height: 25,
               ),
-        
+
               // Row bottom
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 BoxOpen('Oil Area', '../assets/image/oil_1280.png', '/Documents/OilArea'),
                 BoxOpen('Atomic Power Plant', '../assets/image/atomic-power-plant_1280.png',
                     '/Documents/AtomicPower')
-              ])
+              ]),
+              const SizedBox(height: 15),
+              TextButton(child: const Text('Ir para teste Back-end',style: TextStyle(fontSize: 20)), onPressed: () => Get.toNamed('/Teste'),)
             ]),
           )),
         ));

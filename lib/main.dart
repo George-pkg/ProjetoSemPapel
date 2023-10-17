@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 
 import 'package:my_app/pages/HomePage.dart';
+import 'package:my_app/pages/Teste.dart';
 import 'package:my_app/widgets/login.dart';
 import 'package:my_app/pages/Documents.dart';
 import 'package:my_app/pages/Documents/FactoryR&R.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
               GetPage(name: '/FactoryR&R', page: () => const FactoryReR()),
               GetPage(name: '/OilArea', page: () => const OilArea()),
               GetPage(name: '/AtomicPower', page: () => const AtomicPower())
-            ])
+            ]),
+            GetPage(name: '/Teste', page: () => const Teste())
           ])
         ]);
   }

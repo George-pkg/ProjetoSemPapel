@@ -120,5 +120,44 @@ appBarDynamic() {
         ),
       ],
     );
+  } else {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+          onPressed: () => Get.toNamed('/Documents'), icon: const Icon(Icons.arrow_back_ios)),
+      title: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+              onTap: () => Get.toNamed('/HomePage'), child: const Text("No Papel"))),
+      backgroundColor: const Color.fromARGB(255, 55, 81, 126),
+      actions: <Widget>[
+        TextButton(
+            onPressed: () => Get.toNamed('/HomePage'),
+            child: const Text(
+              'Home',
+              style: TextStyle(color: Colors.white),
+            )),
+        TextButton(
+          style: const ButtonStyle(),
+          onPressed: () {
+            Get.toNamed('/API');
+          },
+          child: const Text(
+            'API',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        TextButton(
+          style: const ButtonStyle(),
+          onPressed: () {
+            Get.toNamed('/Documents');
+          },
+          child: const Text(
+            'Documents',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    );
   }
 }
