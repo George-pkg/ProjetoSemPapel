@@ -1,0 +1,50 @@
+[
+    {
+        "box": "1",
+        "title": "Oil Ship - F01 NB3002",
+        "image": "http://localhost:5000/navio.png",
+        "route": "/Documents/list"
+    },
+    {
+        "box": "2",
+        "title": "Factory - Robson & Robson",
+        "image": "http://localhost:5000/factory.png",
+        "route": "/Documents/list"
+    },
+    {
+        "box": "3",
+        "title": "Oil Area",
+        "image": "http://localhost:5000/oil_1280.png",
+        "route": "/Documents/list"
+    },
+    {
+        "box": "4",
+        "title": "Atomic Power Plant",
+        "image": "http://localhost:5000/atomic-power-plant_1280.png",
+        "route": "/Documents/list"
+    },
+    {
+        "box": "5",
+        "title": "Atomic Power Plant",
+        "image": "http://localhost:5000/atomic-power-plant_1280.png",
+        "route": "/Documents/Atomic-Power-Plant"
+    },
+    {
+        "box": "6",
+        "title": "Atomic Power Plant",
+        "image": "http://localhost:5000/atomic-power-plant_1280.png",
+        "route": "/Documents/Atomic-Power-Plant"
+    },
+    {
+        "box": "7",
+        "title": "Atomic Power Plant = teste 4",
+        "image": "http://localhost:5000/atomic-power-plant_1280.png",
+        "route": "/Documents/Atomic-Power-Plant"
+    },
+    {
+        "box": "8",
+        "title": "Atomic Power Plant = teste 5",
+        "image": "http://localhost:5000/atomic-power-plant_1280.png",
+        "route": "/Documents/Atomic-Power-Plant"
+    }
+]

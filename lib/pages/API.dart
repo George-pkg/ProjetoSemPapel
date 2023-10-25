@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -52,7 +53,7 @@ class _APIState extends State<API> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarDynamic(),
+        appBar: appBarDynamic(context),
         backgroundColor: const Color.fromARGB(255, 239, 239, 239),
         body: Center(
           child: Container(

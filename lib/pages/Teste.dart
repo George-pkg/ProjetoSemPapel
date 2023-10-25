@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/models/appBarDynamic.dart';
 import 'package:my_app/utils/homeP.dart';
@@ -48,7 +49,41 @@ class _TesteState extends State<Teste> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDynamic(),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text("No Papel"),
+          backgroundColor: const Color.fromARGB(255, 55, 81, 126),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  GoRouter.of(context).go('/HomePage');
+                },
+                child: const Text(
+                  'Home',
+                  style: TextStyle(color: Colors.white),
+                )),
+            TextButton(
+              style: const ButtonStyle(),
+              onPressed: () {
+                context.go('/API');
+              },
+              child: const Text(
+                'API',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              style: const ButtonStyle(),
+              onPressed: () {
+                GoRouter.of(context).push('/Documents');
+              },
+              child: const Text(
+                'Documents',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
       body: Center(
           child: Container(
         decoration: const BoxDecoration(color: Colors.cyan),

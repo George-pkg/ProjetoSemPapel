@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class BoxOpen extends StatelessWidget {
   final String title;
@@ -27,7 +27,7 @@ class BoxOpen extends StatelessWidget {
             child: SizedBox(height: 150, child: Image.asset(img)),
           ),
           TextButton(
-              onPressed: () => Get.toNamed(opi),
+              onPressed: () => context.go(opi),
               style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.blue)),
               child: const Text('OPEN', style: TextStyle(color: Colors.black))),
         ],

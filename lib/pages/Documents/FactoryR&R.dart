@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/models/PainelList.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_app/models/appBarDynamic.dart';
 import 'package:my_app/utils/painel.dart';
 
@@ -16,7 +16,7 @@ class _FactoryReRState extends State<FactoryReR> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDynamic(),
+      appBar: appBarDynamic(context),
       backgroundColor: const Color.fromARGB(255, 239, 239, 239),
       body: ListView(shrinkWrap: true, children: [
       ExpansionPanelList(

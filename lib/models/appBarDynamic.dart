@@ -1,163 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
-// AppBar na qual seleciona a pagina selecionada
+String currentRoute = '/HomePage'; // Defina a rota padrão
 
-/* 
-  OBS: não está otimizada, tem como reduzir o tamanho do codigo e deixa-la mais dinamica,
-  entretanto como já tinha escrevido o codigo, foquei em fazer outras funções e voltar aqui depois.
-*/
-appBarDynamic() {
-  var route = Get.currentRoute;
+AppBar appBarDynamic(BuildContext context) {
+  return AppBar(
+    automaticallyImplyLeading: false,
+    title: GestureDetector(
+      onTap: () {
+        GoRouter.of(context).go('/');
+        currentRoute = '/HomePage'; // Atualize a rota atual ao navegar
+      },
+      child: const Text(
+        'No Papel',
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    ),
+    backgroundColor: const Color.fromARGB(255, 55, 81, 126),
+    actions: <Widget>[
+      appBarDynamicItem(context, '/HomePage', 'Home'),
+      appBarDynamicItem(context, '/API', 'API'),
+      appBarDynamicItem(context, '/Documents', 'Documents'),
+    ],
+  );
+}
 
-  if (route == '/HomePage') {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      title: const Text("No Papel"),
-      backgroundColor: const Color.fromARGB(255, 55, 81, 126),
-      actions: <Widget>[
-        TextButton(
-            onPressed: () => Get.toNamed('/HomePage'),
-            child: const Text(
-              'Home',
-              style: TextStyle(color: Colors.blueAccent),
-            )),
-        TextButton(
-          style: const ButtonStyle(),
-          onPressed: () {
-            Get.toNamed('/API');
-          },
-          child: const Text(
-            'API',
-            style: TextStyle(color: Colors.white),
+Widget appBarDynamicItem(BuildContext context, String route, String text) {
+  return InkWell(
+    onTap: () {
+      GoRouter.of(context).go(route);
+      currentRoute = route; // Atualize a rota atual ao navegar
+    },
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            color: currentRoute == route ? Colors.blueAccent : Colors.white,
           ),
         ),
-        TextButton(
-          style: const ButtonStyle(),
-          onPressed: () {
-            Get.toNamed('/Documents');
-          },
-          child: const Text(
-            'Documents',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ],
-    );
-  } else if (route.contains('/API')) {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      title: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-              onTap: () => Get.toNamed('/HomePage'), child: const Text("No Papel"))),
-      backgroundColor: const Color.fromARGB(255, 55, 81, 126),
-      actions: <Widget>[
-        TextButton(
-            onPressed: () => Get.toNamed('/HomePage'),
-            child: const Text(
-              'Home',
-              style: TextStyle(color: Colors.white),
-            )),
-        TextButton(
-          style: const ButtonStyle(),
-          onPressed: () {
-            Get.toNamed('/API');
-          },
-          child: const Text(
-            'API',
-            style: TextStyle(color: Colors.blueAccent),
-          ),
-        ),
-        TextButton(
-          style: const ButtonStyle(),
-          onPressed: () {
-            Get.toNamed('/Documents');
-          },
-          child: const Text(
-            'Documents',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ],
-    );
-  } else if (route.contains('/Documents')) {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      leading: IconButton(
-          onPressed: () => Get.toNamed('/Documents'), icon: const Icon(Icons.arrow_back_ios)),
-      title: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-              onTap: () => Get.toNamed('/HomePage'), child: const Text("No Papel"))),
-      backgroundColor: const Color.fromARGB(255, 55, 81, 126),
-      actions: <Widget>[
-        TextButton(
-            onPressed: () => Get.toNamed('/HomePage'),
-            child: const Text(
-              'Home',
-              style: TextStyle(color: Colors.white),
-            )),
-        TextButton(
-          style: const ButtonStyle(),
-          onPressed: () {
-            Get.toNamed('/API');
-          },
-          child: const Text(
-            'API',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        TextButton(
-          style: const ButtonStyle(),
-          onPressed: () {
-            Get.toNamed('/Documents');
-          },
-          child: const Text(
-            'Documents',
-            style: TextStyle(color: Colors.blueAccent),
-          ),
-        ),
-      ],
-    );
-  } else {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      leading: IconButton(
-          onPressed: () => Get.toNamed('/Documents'), icon: const Icon(Icons.arrow_back_ios)),
-      title: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-              onTap: () => Get.toNamed('/HomePage'), child: const Text("No Papel"))),
-      backgroundColor: const Color.fromARGB(255, 55, 81, 126),
-      actions: <Widget>[
-        TextButton(
-            onPressed: () => Get.toNamed('/HomePage'),
-            child: const Text(
-              'Home',
-              style: TextStyle(color: Colors.white),
-            )),
-        TextButton(
-          style: const ButtonStyle(),
-          onPressed: () {
-            Get.toNamed('/API');
-          },
-          child: const Text(
-            'API',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        TextButton(
-          style: const ButtonStyle(),
-          onPressed: () {
-            Get.toNamed('/Documents');
-          },
-          child: const Text(
-            'Documents',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ],
-    );
-  }
+      ),
+    ),
+  );
 }

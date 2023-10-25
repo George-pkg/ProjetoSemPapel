@@ -14,7 +14,7 @@ class _AtomicPowerState extends State<AtomicPower> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDynamic(),
+      appBar: appBarDynamic(context),
       backgroundColor: const Color.fromARGB(255, 239, 239, 239),
       body: PainelList()
     );

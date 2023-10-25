@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:my_app/models/appBarDynamic.dart';
 
-class OilShip extends StatefulWidget {
-  const OilShip({super.key});
+class OilShipTest extends StatefulWidget {
+  const OilShipTest({super.key});
 
   @override
-  State<OilShip> createState() => _OilShipState();
+  State<OilShipTest> createState() => _OilShipTestState();
 }
 
-class _OilShipState extends State<OilShip> {
+class _OilShipTestState extends State<OilShipTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDynamic(),
       backgroundColor: const Color.fromARGB(255, 239, 239, 239),
       body: Column(
         children: [

@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/API.dart';
-import 'package:get/get.dart';
-
-
-import 'package:my_app/pages/HomePage.dart';
-import 'package:my_app/pages/Teste.dart';
-import 'package:my_app/widgets/login.dart';
-import 'package:my_app/pages/Documents.dart';
-import 'package:my_app/pages/Documents/FactoryR&R.dart';
-import 'package:my_app/pages/Documents/OilArea.dart';
-import 'package:my_app/pages/Documents/OilShip.dart';
-import 'package:my_app/pages/Documents/AtomicPower.dart';
-
+import 'package:my_app/widgets/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,13 +8,20 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Tela de Login',
-        theme: ThemeData(primarySwatch: Colors.blueGrey),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Tela de Login',
+      theme: ThemeData(primarySwatch: Colors.blueGrey),
+      routerDelegate: routes.routerDelegate,
+      routeInformationParser: routes.routeInformationParser,
+      routeInformationProvider: routes.routeInformationProvider,
+    );
+  }
+}
 
-        // gestor de paginas
-        getPages: [
+/*
+
+getPages: [
           GetPage(name: '/', page: () => const Login(), children: [
             GetPage(name: '/HomePage', page: () => const HomePage()),
             GetPage(name: '/API', page: () => const API()),
@@ -39,5 +34,5 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/Teste', page: () => const Teste())
           ])
         ]);
-  }
-}
+
+ */

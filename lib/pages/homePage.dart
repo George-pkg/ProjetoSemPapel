@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:my_app/models/BoxOpen.dart';
 import 'package:my_app/models/appBarDynamic.dart';
 
@@ -14,7 +13,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarDynamic(),
+        appBar: appBarDynamic(context),
         backgroundColor: const Color.fromARGB(255, 239, 239, 239),
         body: SingleChildScrollView(
           child: Center(
@@ -41,8 +40,6 @@ class _HomePageState extends State<HomePage> {
                 BoxOpen('Atomic Power Plant', '../assets/image/atomic-power-plant_1280.png',
                     '/Documents/AtomicPower')
               ]),
-              const SizedBox(height: 15),
-              TextButton(child: const Text('Ir para teste Back-end',style: TextStyle(fontSize: 20)), onPressed: () => Get.toNamed('/Teste'),)
             ]),
           )),
         ));

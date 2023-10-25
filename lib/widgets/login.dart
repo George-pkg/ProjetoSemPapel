@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -61,7 +62,7 @@ class _LoginState extends State<Login> {
                         'ENTRAR',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () => Get.toNamed('/HomePage'),
+                      onPressed: () => context.push('/HomePage'),
                     ),
                   )
                 ],
