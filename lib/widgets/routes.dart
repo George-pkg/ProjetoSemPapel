@@ -2,9 +2,10 @@ import 'package:go_router/go_router.dart';
 import 'package:my_app/pages/API.dart';
 import 'package:my_app/pages/Documents.dart';
 import 'package:my_app/pages/homePage.dart';
-import 'package:my_app/widgets/login.dart';
+import 'package:my_app/pages/login.dart';
+import 'package:my_app/testes/testAdd.dart';
 
-import '../pages/Documents/OilShip.dart';
+import '../pages/Documents/IDView.dart';
 
 final routes = GoRouter(
   routes: [
@@ -28,7 +29,11 @@ final routes = GoRouter(
         path: '/Documents/:id',
         builder: (context, state) {
           final id = state.pathParameters['id'];
-          return OilShip(id: id);
-        })
+          return IDView(id: id);
+        }),
+    GoRoute(
+      path: '/testAdd',
+      builder: (context, state) => const testAdd(),
+      )
   ],
 );

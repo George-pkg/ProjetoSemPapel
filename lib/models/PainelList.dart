@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/utils/painel.dart';
+import 'package:my_app/utils/Painel.dart';
 
 class PainelList extends StatefulWidget {
   // final int numSort;

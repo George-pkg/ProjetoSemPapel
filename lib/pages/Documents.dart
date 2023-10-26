@@ -1,16 +1,38 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'dart:math';
+
+import 'package:http/http.dart' as http;
 import 'package:my_app/models/BoxOpen.dart';
 import 'package:my_app/models/appBarDynamic.dart';
 
+Future<List<Boxin>> listBox() async {
+  final response = await http.get(Uri.parse('http://localhost:5000/json/oneBox.json'));
+
+  if (response.statusCode == 200) {
+    List list = jsonDecode(response.body);
+    return list.map((json) => Boxin.fromJson(json)).toList();
+  } else {
+    throw Exception('Erro ao se conectar ao Servidor');
+  }
+}
+
 class Documents extends StatefulWidget {
-  const Documents({super.key, String? id});
+  const Documents({super.key});
 
   @override
   State<Documents> createState() => _DocumentsState();
 }
 
 class _DocumentsState extends State<Documents> {
+  late Future<List<Boxin>> FutureBoxin;
+
+  @override
+  void initState() {
+    super.initState();
+    FutureBoxin = listBox();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,30 +40,65 @@ class _DocumentsState extends State<Documents> {
         backgroundColor: const Color.fromARGB(255, 239, 239, 239),
         body: Center(
             child: Container(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                width: 900,
+                child: FutureBuilder(
+                    future: FutureBoxin,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final box = snapshot.data!;
+                        return ListView.builder(
+                          itemCount: (box.length / 2).ceil(),
+                          itemBuilder: (context, index) {
+                            final startIndex = index * 2;
+                            final endIndex = min(startIndex + 2, box.length);
 
-          width: 900,
-          child: Column(mainAxisSize: MainAxisSize.max, children: [
-              //  Row top
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                // Conatainer 1 == "Oil Ship - F01 NB3002"
-                BoxOpen('Oil Ship - F01 NB3002', '../assets/image/navio.png', '/Documents/list'),
-                // Container 2 == "Factory - Robson & Robson"
-                BoxOpen('Factory - Robson & Robson', '../assets/image/factory.png',
-                    '/Documents/FactoryR&R')
-              ]),
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                for (var i = startIndex; i < endIndex; i++)
+                                  BoxOpen(box[i].title!, box[i].image!, box[i].route!),
+                              ],
+                            );
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text(snapshot.error.toString()),
+                        );
+                      }
 
-              const SizedBox(
-                height: 25,
-              ),
+                      return Container(
+                        width: 10,
+                        height: 30,
+                        decoration: const BoxDecoration(color: Colors.deepPurple),
+                        child: const CircularProgressIndicator(),
+                      );
+                    }))));
+  }
+}
 
-              // Row bottom
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                BoxOpen('Oil Area', '../assets/image/oil_1280.png', '/Documents/OilArea'),
-                BoxOpen('Atomic Power Plant', '../assets/image/atomic-power-plant_1280.png',
-                    '/Documents/AtomicPower')
-              ]),
-            ]),
-        )));
+class Boxin {
+  String? box;
+  String? title;
+  String? image;
+  String? route;
+
+  Boxin({this.box, this.title, this.image, this.route});
+
+  Boxin.fromJson(Map<String, dynamic> json) {
+    box = json['box'];
+    title = json['title'];
+    image = json['image'];
+    route = json['route'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['box'] = this.box;
+    data['title'] = this.title;
+    data['image'] = this.image;
+    data['route'] = this.route;
+    return data;
   }
 }

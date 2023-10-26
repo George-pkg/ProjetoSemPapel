@@ -6,8 +6,7 @@ class BoxOpen extends StatelessWidget {
   final String img;
   final String opi;
 
-  BoxOpen(this.title, this.img, this.opi,{super.key});
-
+  BoxOpen(this.title, this.img, this.opi, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +14,7 @@ class BoxOpen extends StatelessWidget {
       decoration: const BoxDecoration(
           color: Color.fromARGB(255, 203, 208, 228),
           borderRadius: BorderRadius.all(Radius.circular(15))),
+      margin: const EdgeInsets.only(bottom: 10),
       height: 300,
       width: 300,
       padding: const EdgeInsets.all(15),
@@ -24,7 +24,7 @@ class BoxOpen extends StatelessWidget {
           Text(title, style: const TextStyle(fontSize: 20)),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: SizedBox(height: 150, child: Image.asset(img)),
+            child: SizedBox(height: 150, child: Image(image: NetworkImage(img))),
           ),
           TextButton(
               onPressed: () => context.go(opi),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -60,7 +59,7 @@ class _APIState extends State<API> {
               width: 450,
               height: 500,
               decoration: const BoxDecoration(
-                  color: Color.fromARGB(223, 207, 194, 216),
+                  color: Color.fromARGB(255, 203, 208, 228),
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Padding(
                 padding: const EdgeInsets.only(left: 25, right: 25),
@@ -68,7 +67,7 @@ class _APIState extends State<API> {
                   children: <Widget>[
                     ElevatedButton(
                       onPressed: () {
-                        Get.toNamed('/HomePage');
+                        context.go('/HomePage');
                       },
                       child: const Text('voltar'),
                     ),

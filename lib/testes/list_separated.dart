@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:my_app/models/appBarDynamic.dart';
-
 class OilShipTest extends StatefulWidget {
   const OilShipTest({super.key});
 
