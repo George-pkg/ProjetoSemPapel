@@ -61,7 +61,7 @@ class _LoginState extends State<Login> {
                         'ENTRAR',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () => context.push('/HomePage'),
+                      onPressed: () => context.go('/HomePage'),
                     ),
                   )
                 ],

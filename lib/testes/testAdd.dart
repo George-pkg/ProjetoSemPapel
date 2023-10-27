@@ -17,14 +17,14 @@ Future<List<Boxin>> listBox() async {
   }
 }
 
-class Documents extends StatefulWidget {
-  const Documents({super.key});
+class testAdd extends StatefulWidget {
+  const testAdd({super.key});
 
   @override
-  State<Documents> createState() => _DocumentsState();
+  State<testAdd> createState() => _testAddState();
 }
 
-class _DocumentsState extends State<Documents> {
+class _testAddState extends State<testAdd> {
   late Future<List<Boxin>> FutureBoxin;
   List<Boxin> items = []; // Lista de Boxin
 
@@ -35,10 +35,11 @@ class _DocumentsState extends State<Documents> {
   }
 
   // Função para adicionar um novo BoxOpen
-  void addNewBoxOpen() {
+  void addNewBoxOpen() async {
+    String title = await _requestTitle(context);
     final newBoxOpen = Boxin(
-      box: 'Nova Caixa',
-      title: 'Novo Título',
+      box: '',
+      title: title,
       image: 'caminho_da_imagem',
       route: 'nova_rota',
     );
@@ -47,7 +48,39 @@ class _DocumentsState extends State<Documents> {
     });
   }
 
+  Future<String> _requestTitle(BuildContext context) async {
+    String? title;
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edite as configurações do novo Box:'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(onChanged: (value) {
+                title = value;
+              }),
+              TextField(onChanged: (value) => )
+            ],
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    return title ?? '';
+  }
+
+/* 
   // Função para editar um BoxOpen
+
+*/
+
   Future<void> _editBoxOpen(Boxin boxin) async {
     final updatedBoxin = await showDialog<Boxin>(
       context: context,
@@ -57,21 +90,21 @@ class _DocumentsState extends State<Documents> {
         TextEditingController routeController = TextEditingController(text: boxin.route);
 
         return AlertDialog(
-          title: Text('Editar BoxOpen'),
+          title: const Text('Editar BoxOpen'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
                 controller: titleController,
-                decoration: InputDecoration(labelText: 'Título'),
+                decoration: const InputDecoration(labelText: 'Título'),
               ),
               TextField(
                 controller: imageController,
-                decoration: InputDecoration(labelText: 'URL da Imagem'),
+                decoration: const InputDecoration(labelText: 'URL da Imagem'),
               ),
               TextField(
                 controller: routeController,
-                decoration: InputDecoration(labelText: 'Rota'),
+                decoration: const InputDecoration(labelText: 'Rota'),
               ),
             ],
           ),
@@ -86,7 +119,7 @@ class _DocumentsState extends State<Documents> {
                 );
                 Navigator.of(context).pop(editedBoxin);
               },
-              child: Text('Salvar'),
+              child: const Text('Salvar'),
             ),
           ],
         );
@@ -102,64 +135,103 @@ class _DocumentsState extends State<Documents> {
       });
     }
   }
+  // fim do modificador de BoxOpen
+
+  String allBoxOpenData = "";
+
+  void _generateAllBoxOpenData() {
+    final List<Map<String, dynamic>> allData = [];
+
+    for (final boxin in items) {
+      allData.add(boxin.toJson());
+    }
+
+    final jsonData = jsonEncode(allData);
+    setState(() {
+      allBoxOpenData = jsonData;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarDynamic(context),
       backgroundColor: const Color.fromARGB(255, 239, 239, 239),
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-          width: 900,
-          child: FutureBuilder(
-            future: FutureBoxin,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                items = snapshot.data!;
-                return ListView.builder(
-                  itemCount: (items.length / 2).ceil(),
-                  itemBuilder: (context, index) {
-                    final startIndex = index * 2;
-                    final endIndex = min(startIndex + 2, items.length);
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        for (var i = startIndex; i < endIndex; i++)
-                          Column(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Container(
+                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                width: 900,
+                child: FutureBuilder(
+                  future: FutureBoxin,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      items = snapshot.data!;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: (items.length / 2).ceil(),
+                        itemBuilder: (context, index) {
+                          final startIndex = index * 2;
+                          final endIndex = min(startIndex + 2, items.length);
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              BoxOpen(items[i].title!, items[i].image!, items[i].route!),
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () => _editBoxOpen(items[i]),
-                              ),
+                              for (var i = startIndex; i < endIndex; i++)
+                                Column(
+                                  children: [
+                                    BoxOpen(items[i].title!, items[i].image!, items[i].route!),
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () => _editBoxOpen(items[i]),
+                                    ),
+                                  ],
+                                ),
                             ],
-                          ),
-                        if (endIndex - startIndex == 1)
-                          Container(width: MediaQuery.of(context).size.width / 4),
-                      ],
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text(snapshot.error.toString()),
+                      );
+                    }
+
+                    return Container(
+                      width: 10,
+                      height: 30,
+                      decoration: const BoxDecoration(color: Colors.deepPurple),
+                      child: const CircularProgressIndicator(),
                     );
                   },
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(snapshot.error.toString()),
-                );
-              }
-
-              return Container(
-                width: 10,
-                height: 30,
-                decoration: const BoxDecoration(color: Colors.deepPurple),
-                child: const CircularProgressIndicator(),
-              );
-            },
-          ),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(100),
+              width: 50,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: _generateAllBoxOpenData, // Chama a função para gerar o JSON
+                child: const Text('Enviar'),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(right: 100, left: 100, bottom: 100),
+              height: 50,
+              child: ElevatedButton(
+                  onPressed: () => print(allBoxOpenData),
+                  child: const Text('ver dados no console')),
+            ),
+            Text(allBoxOpenData),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: addNewBoxOpen,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -182,10 +254,10 @@ class Boxin {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['box'] = this.box;
-    data['title'] = this.title;
-    data['image'] = this.image;
-    data['route'] = this.route;
+    data['box'] = box;
+    data['title'] = title;
+    data['image'] = image;
+    data['route'] = route;
     return data;
   }
 }

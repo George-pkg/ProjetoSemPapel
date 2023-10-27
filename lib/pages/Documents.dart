@@ -7,7 +7,7 @@ import 'package:my_app/models/BoxOpen.dart';
 import 'package:my_app/models/appBarDynamic.dart';
 
 Future<List<Boxin>> listBox() async {
-  final response = await http.get(Uri.parse('http://localhost:5000/json/oneBox.json'));
+  final response = await http.get(Uri.parse('http://localhost:5000/json/twoBox.json'));
 
   if (response.statusCode == 200) {
     List list = jsonDecode(response.body);
@@ -68,11 +68,14 @@ class _DocumentsState extends State<Documents> {
                         );
                       }
 
-                      return Container(
-                        width: 10,
-                        height: 30,
-                        decoration: const BoxDecoration(color: Colors.deepPurple),
-                        child: const CircularProgressIndicator(),
+                      return Center(
+                        child: Container(
+                          width: 90,
+                          height: 90,
+                          child: const CircularProgressIndicator(
+                            color: Colors.deepPurple,
+                          ),
+                        ),
                       );
                     }))));
   }
