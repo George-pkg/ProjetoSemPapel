@@ -7,7 +7,7 @@ import 'package:my_app/models/BoxOpen.dart';
 import 'package:my_app/models/appBarDynamic.dart'; // Importe o módulo dart:math
 
 Future<List<Boxin>> listBox() async {
-  final response = await http.get(Uri.parse('http://localhost:5000/json/oneBox.json'));
+  final response = await http.get(Uri.parse('http://localhost:5000/json/twoBox.json'));
 
   if (response.statusCode == 200) {
     List list = jsonDecode(response.body);
@@ -36,44 +36,80 @@ class _testAddState extends State<testAdd> {
 
   // Função para adicionar um novo BoxOpen
   void addNewBoxOpen() async {
-    String title = await _requestTitle(context);
-    final newBoxOpen = Boxin(
-      box: '',
-      title: title,
-      image: 'caminho_da_imagem',
-      route: 'nova_rota',
-    );
+    Boxin? newBoxOpen = await _newtBoxOpenData(context);
+
     setState(() {
-      items.add(newBoxOpen);
+      items.add(newBoxOpen!);
     });
   }
 
-  Future<String> _requestTitle(BuildContext context) async {
+  Future<Boxin?> _newtBoxOpenData(BuildContext context) async {
     String? title;
+    String? image;
+    String? route;
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar(); // Limpa qualquer SnackBar existente
+
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Edite as configurações do novo Box:'),
+          title: const Text('Preencha os detalhes do BoxOpen:'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(onChanged: (value) {
-                title = value;
-              }),
-              TextField(onChanged: (value) => )
+              TextField(
+                  decoration: const InputDecoration(labelText: 'Titulo do Box:'),
+                  onChanged: (value) => title = value),
+              TextField(
+                  decoration: const InputDecoration(labelText: 'Url da imagem:'),
+                  onChanged: (value) => image = value),
+              TextField(
+                  decoration: const InputDecoration(labelText: 'Routa da BoxOpen'),
+                  onChanged: (value) => route = value)
             ],
           ),
           actions: <Widget>[
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text('OK'),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Voltar'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                if (title != null && image != null && route != null) {
+                  Navigator.of(context).pop(Boxin(
+                    box: 'Nova Caixa',
+                    title: title!,
+                    image: image!,
+                    route: route!,
+                  ));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Dados inválidos'),
+                    ),
+                  );
+                }
+              },
+              child: const Text('OK'),
+            )
           ],
         );
       },
     );
-    return title ?? '';
+
+    if (title != null && image != null && route != null) {
+      return Boxin(
+        box: '',
+        title: title,
+        image: 'http://localhost:5000/$image.png',
+        route: '/Documents/$route',
+      );
+    } else {
+      return null;
+    }
   }
 
 /* 

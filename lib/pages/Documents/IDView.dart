@@ -31,11 +31,11 @@ class ListPreview {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['subtitle'] = this.subtitle;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['subtitle'] = subtitle;
+    data['image'] = image;
     return data;
   }
 }
@@ -58,6 +58,51 @@ class _IDViewState extends State<IDView> {
     futureListPreview = listView(widget.id);
   }
 
+  /* 
+  // Função para editar a lista
+
+  */
+  List<ListPreview> items = [];
+
+  Future<void> _editListPreview(ListPreview list) async {
+    await showDialog<ListPreview>(
+      context: context,
+      builder: (context) {
+        TextEditingController titleController = TextEditingController(text: list.title);
+        TextEditingController subtitleController = TextEditingController(text: list.subtitle);
+
+        return AlertDialog(
+          title: const Text('Editar Elemento: '),
+          content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(labelText: 'title'),
+            ),
+            TextField(
+              controller: subtitleController,
+              decoration: const InputDecoration(labelText: 'Subtitle'),
+            )
+          ]),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                if (titleController.text.isNotEmpty && subtitleController.text.isNotEmpty) {
+                  setState(() {
+                    list.title = titleController.text;
+                    list.subtitle = subtitleController.text;
+                  });
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('Salvar'),
+            )
+          ],
+        );
+      },
+    );
+  }
+  // fim do modificador de BoxOpen
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,8 +117,16 @@ class _IDViewState extends State<IDView> {
                 itemBuilder: (context, index) {
                   ListPreview listPreview = snapshot.data![index];
                   return ListTile(
+                    contentPadding: const EdgeInsets.only(top: 10, left: 10),
                     leading: Image(image: NetworkImage(listPreview.image!), height: 40),
                     title: Text(listPreview.title!),
+                    trailing: IconButton(
+                      onPressed: () {
+                        _editListPreview(listPreview);
+                        print(snapshot.data![index].id);
+                      },
+                      icon: const Icon(Icons.edit, color: Colors.black54),
+                    ),
                   );
                 });
           } else if (snapshot.hasError) {
