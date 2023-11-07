@@ -1,11 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:my_app/models/appBarDynamic.dart';
+import 'package:my_app/utils/ListPreview.dart';
 
 Future<List<ListPreview>> listView(id) async {
-  final response = await http.get(Uri.parse('http://localhost:5000/json/$id.json'));
+  final response = await http.get(Uri.parse('http://127.0.0.1:5000/json/$id.json'));
 
   if (response.statusCode == 200) {
     List listV = json.decode(response.body);
@@ -15,42 +16,18 @@ Future<List<ListPreview>> listView(id) async {
   }
 }
 
-class ListPreview {
-  int? id;
-  String? title;
-  String? subtitle;
-  String? image;
-
-  ListPreview({this.id, this.title, this.subtitle, this.image});
-
-  ListPreview.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    subtitle = json['subtitle'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['subtitle'] = subtitle;
-    data['image'] = image;
-    return data;
-  }
-}
-
-class IDView extends StatefulWidget {
+class FolderPreview extends StatefulWidget {
   final dynamic id;
 
-  const IDView({Key? key, required this.id}) : super(key: key);
+  const FolderPreview({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<IDView> createState() => _IDViewState();
+  State<FolderPreview> createState() => _FolderPreviewState();
 }
 
-class _IDViewState extends State<IDView> {
+class _FolderPreviewState extends State<FolderPreview> {
   late Future<List<ListPreview>> futureListPreview;
+  List<ListPreview> items = [];
 
   @override
   void initState() {
@@ -59,21 +36,23 @@ class _IDViewState extends State<IDView> {
   }
 
   /* 
-  // Função para editar a lista
+    __Future for Edit ListPreview__
 
   */
-  List<ListPreview> items = [];
-
   Future<void> _editListPreview(ListPreview list) async {
     await showDialog<ListPreview>(
       context: context,
       builder: (context) {
+        print(items);
+        // get elements from ListPreview
         TextEditingController titleController = TextEditingController(text: list.title);
         TextEditingController subtitleController = TextEditingController(text: list.subtitle);
 
         return AlertDialog(
+          // object in alert box
           title: const Text('Editar Elemento: '),
           content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            // inputs
             TextField(
               controller: titleController,
               decoration: const InputDecoration(labelText: 'title'),
@@ -91,6 +70,18 @@ class _IDViewState extends State<IDView> {
                     list.title = titleController.text;
                     list.subtitle = subtitleController.text;
                   });
+                } else {
+                  // limpa qualquer mensagem que estiver na tela
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+                  // notifica uma mensagem nova notificando algum erro
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Preencha todos os dados para alteração!',
+                          style: TextStyle(color: Colors.black, fontSize: 18)),
+                      backgroundColor: Color.fromARGB(200, 194, 28, 16),
+                    ),
+                  );
                 }
                 Navigator.of(context).pop();
               },
@@ -101,7 +92,7 @@ class _IDViewState extends State<IDView> {
       },
     );
   }
-  // fim do modificador de BoxOpen
+  /* */
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +114,6 @@ class _IDViewState extends State<IDView> {
                     trailing: IconButton(
                       onPressed: () {
                         _editListPreview(listPreview);
-                        print(snapshot.data![index].id);
                       },
                       icon: const Icon(Icons.edit, color: Colors.black54),
                     ),

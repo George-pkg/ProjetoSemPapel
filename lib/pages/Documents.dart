@@ -7,7 +7,7 @@ import 'package:my_app/models/BoxOpen.dart';
 import 'package:my_app/models/appBarDynamic.dart';
 
 Future<List<Boxin>> listBox() async {
-  final response = await http.get(Uri.parse('http://localhost:5000/json/twoBox.json'));
+  final response = await http.get(Uri.parse('http://127.0.0.1:5000/json/twoBox.json'));
 
   if (response.statusCode == 200) {
     List list = jsonDecode(response.body);

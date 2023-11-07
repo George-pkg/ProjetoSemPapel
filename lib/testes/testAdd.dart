@@ -235,11 +235,14 @@ class _testAddState extends State<testAdd> {
                       );
                     }
 
-                    return Container(
-                      width: 10,
-                      height: 30,
-                      decoration: const BoxDecoration(color: Colors.deepPurple),
-                      child: const CircularProgressIndicator(),
+                    return Center(
+                      child: Container(
+                        width: 90,
+                        height: 90,
+                        child: const CircularProgressIndicator(
+                          color: Colors.deepPurple,
+                        ),
+                      ),
                     );
                   },
                 ),
