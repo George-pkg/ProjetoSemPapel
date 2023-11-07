@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_app/utils/colors.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -18,7 +19,7 @@ class _LoginState extends State<Login> {
             width: 350,
             height: 300,
             decoration: const BoxDecoration(
-              color: Color.fromARGB(223, 207, 194, 216),
+              color: Color.fromARGB(223, 205, 207, 228),
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(
@@ -32,21 +33,35 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(height: 14),
                   const TextField(
-                      autofocus: true,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                          labelText: "Name",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(30))))),
+                        labelText: "Name",
+                        labelStyle: TextStyle(color: ColorsPage.green),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderSide: BorderSide(color: ColorsPage.green),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderSide: BorderSide(color: ColorsPage.green),
+                        ),
+                      )),
                   const SizedBox(height: 15),
                   const TextField(
-                    autofocus: true,
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
-                        labelText: "Password",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30)))),
+                      labelText: "Password",
+                      labelStyle: TextStyle(color: ColorsPage.green),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        borderSide: BorderSide(color: ColorsPage.green),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        borderSide: BorderSide(color: ColorsPage.green),
+                      ),
+                    ),
                   ),
                   // const SizedBox(height: 20),
                   Container(
@@ -54,8 +69,8 @@ class _LoginState extends State<Login> {
                     height: 50,
                     width: 350,
                     decoration: const BoxDecoration(
-                        color: Color.fromARGB(250, 5, 0, 85),
-                        borderRadius: BorderRadius.all(Radius.circular(32))),
+                        color: ColorsPage.green,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: TextButton(
                       child: const Text(
                         'ENTRAR',

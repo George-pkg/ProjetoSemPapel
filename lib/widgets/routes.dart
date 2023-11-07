@@ -12,7 +12,8 @@ import 'package:my_app/testes/testAdd.dart';
 import '../pages/Documents/FolderPreview.dart';
 
 final routes = GoRouter(
-  initialLocation: '/API',
+  // initialLocation: '/API',
+
   routes: [
     GoRoute(
       path: '/',
