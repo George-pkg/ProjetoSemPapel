@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_app/models/appBarDynamic.dart';
 import 'package:my_app/utils/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,9 +15,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      final bool isMobile = constraints.maxWidth < 650;
-
       return Scaffold(
+        appBar: appBarDaynamic(context),
         backgroundColor: ColorsPage.whiteSmoke,
         body: Center(
           child: Container(
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 SvgPicture.asset(
                   'assets/images/psp-logo.svg',
+                  color: ColorsPage.gray,
                 ),
                 const TextField(
                   keyboardType: TextInputType.text,
@@ -44,7 +46,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go('/Boxes');
+                  },
                   style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(ColorsPage.green),
                       fixedSize: MaterialStatePropertyAll(Size(400, 50))),

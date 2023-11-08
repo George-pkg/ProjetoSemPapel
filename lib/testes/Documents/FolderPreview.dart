@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:my_app/models/appBarDynamic.dart';
+import 'package:my_app/models/appBarDynamica.dart';
 import 'package:my_app/utils/ListPreview.dart';
 
 Future<List<ListPreview>> listView(id) async {
@@ -97,7 +97,7 @@ class _FolderPreviewState extends State<FolderPreview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDynamic(context),
+      appBar: appBarDynamica(context),
       backgroundColor: const Color.fromARGB(255, 239, 239, 239),
       body: FutureBuilder(
         future: futureListPreview,

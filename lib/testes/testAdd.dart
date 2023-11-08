@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 
 import 'package:my_app/models/BoxOpen.dart';
-import 'package:my_app/models/appBarDynamic.dart'; // Importe o módulo dart:math
+import 'package:my_app/models/appBarDynamica.dart'; // Importe o módulo dart:math
 
 Future<List<Boxin>> listBox() async {
   final response = await http.get(Uri.parse('http://localhost:5000/json/twoBox.json'));
@@ -191,7 +191,7 @@ class _testAddState extends State<testAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarDynamic(context),
+      appBar: appBarDynamica(context),
       backgroundColor: const Color.fromARGB(255, 239, 239, 239),
       body: SingleChildScrollView(
         child: Column(

@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:http/http.dart' as http;
 import 'package:my_app/models/BoxOpen.dart';
-import 'package:my_app/models/appBarDynamic.dart';
+import 'package:my_app/models/appBarDynamica.dart';
 
 Future<List<Boxin>> listBox() async {
   final response = await http.get(Uri.parse('http://127.0.0.1:5000/json/twoBox.json'));
@@ -36,7 +36,7 @@ class _DocumentsState extends State<Documents> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarDynamic(context),
+        appBar: appBarDynamica(context),
         backgroundColor: const Color.fromARGB(255, 239, 239, 239),
         body: Center(
             child: Container(

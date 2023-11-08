@@ -31,39 +31,44 @@ class _LoginState extends State<Login> {
                     'Login',
                     style: TextStyle(fontSize: 35),
                   ),
-                  const SizedBox(height: 14),
+
+                  // Primeiro input - Name
+                  const SizedBox(height: 15),
                   const TextField(
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         labelText: "Name",
-                        labelStyle: TextStyle(color: ColorsPage.green),
+                        labelStyle: TextStyle(color: ColorsPage.darkBlue),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide(color: ColorsPage.green),
+                          borderSide: BorderSide(color: ColorsPage.darkBlue),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide(color: ColorsPage.green),
+                          borderSide: BorderSide(color: ColorsPage.darkBlue),
                         ),
                       )),
+
+                  // Segundo input - Password
                   const SizedBox(height: 15),
                   const TextField(
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                       labelText: "Password",
-                      labelStyle: TextStyle(color: ColorsPage.green),
+                      labelStyle: TextStyle(color: ColorsPage.darkBlue),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide: BorderSide(color: ColorsPage.green),
+                        borderSide: BorderSide(color: ColorsPage.darkBlue),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide: BorderSide(color: ColorsPage.green),
+                        borderSide: BorderSide(color: ColorsPage.darkBlue),
                       ),
                     ),
                   ),
-                  // const SizedBox(height: 20),
+
+                  // Botâo para entrar 
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     height: 50,

@@ -1,15 +1,11 @@
 import 'package:go_router/go_router.dart';
-import 'package:my_app/pages/API.dart';
-import 'package:my_app/pages/Documents.dart';
+import 'package:my_app/pages/Boxes.dart';
 
 import 'package:my_app/pages/homePage.dart';
 import 'package:my_app/pages/login.dart';
-import 'package:my_app/pages/responsive/DesktopBody.dart';
-import 'package:my_app/pages/responsive/ResponseLayout.dart';
-import 'package:my_app/pages/responsive/mobileBody.dart';
 import 'package:my_app/testes/testAdd.dart';
 
-import '../pages/Documents/FolderPreview.dart';
+import '../testes/Documents/FolderPreview.dart';
 
 final routes = GoRouter(
   // initialLocation: '/API',
@@ -24,12 +20,8 @@ final routes = GoRouter(
       builder: (context, state) => const HomePage(),
     ),
     GoRoute(
-      path: '/API',
-      builder: (context, state) => const API(),
-    ),
-    GoRoute(
-      path: '/Documents',
-      builder: (context, state) => const Documents(),
+      path: '/Boxes',
+      builder: (context, state) => const Boxes(),
     ),
     GoRoute(
         path: '/Documents/:id',
@@ -41,10 +33,5 @@ final routes = GoRouter(
       path: '/testAdd',
       builder: (context, state) => const testAdd(),
     ),
-    GoRoute(
-      path: '/Responsive',
-      builder: (context, state) =>
-          ResponseLayout(mobileBody: const MobileBody(), desktopBody: const DesktopBody()),
-    )
   ],
 );

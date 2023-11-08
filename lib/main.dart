@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Tela de Login',
+      title: 'Sem Papel',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       routerDelegate: routes.routerDelegate,
       routeInformationParser: routes.routeInformationParser,
