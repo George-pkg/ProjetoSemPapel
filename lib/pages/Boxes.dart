@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_app/models/appBarDynamic.dart';
@@ -21,25 +22,39 @@ class _BoxesState extends State<Boxes> {
             padding: const EdgeInsets.only(top: 60),
             child: Column(
               children: [
-                SvgPicture.asset(
-                  'assets/images/psp-logo.svg',
-                  width: 300,
-                  color: ColorsPage.gray,
-                ),
-                const SizedBox(height: 30),
-                const Text('123'),
-                const SizedBox(height: 30),
-                Image.asset('assets/images/quCode.png'),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.deepPurple[300],
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: SvgPicture.asset(
+                    'assets/images/psp-logo.svg',
+                    width: 300,
+                    color: ColorsPage.gray,
                   ),
-                  height: 100,
-                  width: 500,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text('Arraste arquivo(s) ou clique aqui para enviar'),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 30),
+                  child: Text(
+                    '123',
+                    style: TextStyle(
+                        fontFamily: "Goldplay-black", fontSize: 25, color: ColorsPage.blueDark),
+                  ),
+                ),
+                Image.asset('assets/images/quCode.png'),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Expanded(
+                    child: DottedBorder(
+                      color: ColorsPage.greenDark,
+                      strokeWidth: 1.1,
+                      child: SizedBox(
+                        height: 100,
+                        width: 500,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text('Arraste arquivo(s) ou clique aqui para enviar',
+                              style: TextStyle(color: Colors.black87)),
+                        ),
+                      ),
+                    ),
                   ),
                 )
               ],

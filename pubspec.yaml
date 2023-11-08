@@ -27,5 +27,11 @@ flutter:
   assets:
     - assets/images/
 
-  # fonts:
-  #   - assets/fonts/
+  fonts:
+    - family: Goldplay-black
+      fonts:
+        - asset: assets/fonts/Goldplay-Black.ttf
+        
+    - family: Goldplay-regular
+      fonts:
+        - asset: assets/fonts/Goldplay-Regular.ttf

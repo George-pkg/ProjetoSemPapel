@@ -4,21 +4,22 @@ import 'package:go_router/go_router.dart';
 import 'package:my_app/models/appBarDynamic.dart';
 import 'package:my_app/utils/colors.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class SearchBox extends StatefulWidget {
+  const SearchBox({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SearchBox> createState() => _SearchBoxState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SearchBoxState extends State<SearchBox> {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        appBar: appBarDaynamic(context),
-        backgroundColor: ColorsPage.whiteSmoke,
-        body: Center(
+    return Scaffold(
+      appBar: appBarDaynamic(context),
+      backgroundColor: ColorsPage.whiteSmoke,
+      body: SingleChildScrollView(
+        reverse: true,
+        child: Center(
           child: Container(
             padding: const EdgeInsets.all(8),
             width: 400,
@@ -32,8 +33,8 @@ class _HomePageState extends State<HomePage> {
                 const TextField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: "Criar uma caixa",
-                    labelStyle: TextStyle(color: Colors.green),
+                    labelText: "Procurar por uma caixa",
+                    labelStyle: TextStyle(color: ColorsPage.greenDark),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: ColorsPage.green),
@@ -52,13 +53,13 @@ class _HomePageState extends State<HomePage> {
                   style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(ColorsPage.green),
                       fixedSize: MaterialStatePropertyAll(Size(400, 50))),
-                  child: const Text('Criar'),
+                  child: const Text('Procurar'),
                 ),
               ],
             ),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

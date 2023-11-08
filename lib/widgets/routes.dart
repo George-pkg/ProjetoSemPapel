@@ -1,14 +1,14 @@
 import 'package:go_router/go_router.dart';
 import 'package:my_app/pages/Boxes.dart';
 
-import 'package:my_app/pages/homePage.dart';
+import 'package:my_app/pages/NewBox.dart';
 import 'package:my_app/pages/login.dart';
+import 'package:my_app/pages/searchBox.dart';
 import 'package:my_app/testes/testAdd.dart';
 
 import '../testes/Documents/FolderPreview.dart';
 
 final routes = GoRouter(
-  // initialLocation: '/API',
 
   routes: [
     GoRoute(
@@ -16,15 +16,19 @@ final routes = GoRouter(
       builder: (context, state) => const Login(),
     ),
     GoRoute(
-      path: '/HomePage',
-      builder: (context, state) => const HomePage(),
+      path: '/NewBox',
+      builder: (context, state) => const NewBox(),
+    ),
+    GoRoute(
+      path: '/SearchBox',
+      builder: ((context, state) => const SearchBox()),
     ),
     GoRoute(
       path: '/Boxes',
       builder: (context, state) => const Boxes(),
     ),
     GoRoute(
-        path: '/Documents/:id',
+        path: '/Boxes/:id',
         builder: (context, state) {
           final id = state.pathParameters['id'];
           return FolderPreview(id: id);

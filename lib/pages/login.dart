@@ -38,14 +38,14 @@ class _LoginState extends State<Login> {
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         labelText: "Name",
-                        labelStyle: TextStyle(color: ColorsPage.darkBlue),
+                        labelStyle: TextStyle(color: ColorsPage.blueDark),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide(color: ColorsPage.darkBlue),
+                          borderSide: BorderSide(color: ColorsPage.blueDark),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide(color: ColorsPage.darkBlue),
+                          borderSide: BorderSide(color: ColorsPage.blueDark),
                         ),
                       )),
 
@@ -56,19 +56,19 @@ class _LoginState extends State<Login> {
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                       labelText: "Password",
-                      labelStyle: TextStyle(color: ColorsPage.darkBlue),
+                      labelStyle: TextStyle(color: ColorsPage.blueDark),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide: BorderSide(color: ColorsPage.darkBlue),
+                        borderSide: BorderSide(color: ColorsPage.blueDark),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide: BorderSide(color: ColorsPage.darkBlue),
+                        borderSide: BorderSide(color: ColorsPage.blueDark),
                       ),
                     ),
                   ),
 
-                  // Botâo para entrar 
+                  // Botâo para entrar
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     height: 50,
@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
                         'ENTRAR',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () => context.go('/HomePage'),
+                      onPressed: () => context.go('/NewBox'),
                     ),
                   )
                 ],
