@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:my_app/models/appBarDynamica.dart';
-import 'package:my_app/utils/ListPreview.dart';
+import '../../../testes/old/appBarDynamica.dart';
+import 'package:my_app/models/ListPreview.dart';
 
 Future<List<ListPreview>> listView(id) async {
   final response = await http.get(Uri.parse('http://127.0.0.1:5000/json/$id.json'));

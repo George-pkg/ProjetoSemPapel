@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
-import 'package:my_app/models/BoxOpen.dart';
-import 'package:my_app/models/appBarDynamica.dart';
+import 'package:my_app/testes/old/BoxOpen.dart';
+import 'package:my_app/testes/old/appBarDynamica.dart';
 
 Future<List<Boxin>> listBox() async {
   final response = await http.get(Uri.parse('http://127.0.0.1:5000/json/twoBox.json'));

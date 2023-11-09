@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/testes/responsive/mobileBody.dart';
+import '../../../testes/responsive/mobileBody.dart';
 
 class DesktopBody extends StatefulWidget {
   const DesktopBody({super.key});

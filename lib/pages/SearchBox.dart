@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/models/appBarDynamic.dart';
 import 'package:my_app/utils/colors.dart';
+import 'package:my_app/widgets/appBarDynamic.dart';
 
 class SearchBox extends StatefulWidget {
   const SearchBox({super.key});
