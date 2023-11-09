@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../testes/old/appBarDynamica.dart';
 import 'package:my_app/models/ListPreview.dart';
+import 'package:my_app/testes/old/appBarDynamica.dart';
 
 Future<List<ListPreview>> listView(id) async {
   final response = await http.get(Uri.parse('http://127.0.0.1:5000/json/$id.json'));
@@ -34,7 +34,6 @@ class _FolderPreviewState extends State<FolderPreview> {
     super.initState();
     futureListPreview = listView(widget.id);
   }
-
 
   /* 
     __Future for Edit ListPreview__

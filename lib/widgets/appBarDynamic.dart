@@ -13,10 +13,16 @@ AppBar appBarDaynamic(BuildContext context) {
         children: [
           TextButton(
               onPressed: () => context.go('/NewBox'),
-              child: const Text('Criar', style: TextStyle(color: ColorsPage.whiteSmoke))),
+              child: const Icon(
+                Icons.add_box_outlined,
+                color: ColorsPage.whiteSmoke,
+              )),
           TextButton(
               onPressed: () => context.go('/SearchBox'),
-              child: const Text('Procurar', style: TextStyle(color: ColorsPage.whiteSmoke))),
+              child: const Icon(
+                Icons.search,
+                color: ColorsPage.whiteSmoke,
+              )),
         ],
       )
     ],

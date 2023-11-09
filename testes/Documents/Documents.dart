@@ -98,10 +98,10 @@ class Boxin {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['box'] = box;
-    data['title'] = title;
-    data['image'] = image;
-    data['route'] = route;
+    data['box'] = this.box;
+    data['title'] = this.title;
+    data['image'] = this.image;
+    data['route'] = this.route;
     return data;
   }
 }
