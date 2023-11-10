@@ -1,8 +1,29 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/utils/colors.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:my_app/widgets/appBarDynamic.dart';
+import 'package:my_app/utils/colors.dart';
+
+Future<CreateBoxList> CreateBox(String title) async {
+  final response = await http.post(
+    Uri.parse('https://api.projetosempapel.com/Boxes'),
+    headers: <String, String>{'Content-Type': 'application/json'},
+    body: jsonEncode(
+      <String, String>{
+        "title": title,
+      },
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    return CreateBoxList.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Erro ao se conectar ao Servidor');
+  }
+}
 
 class SearchBox extends StatefulWidget {
   const SearchBox({super.key});
@@ -12,6 +33,9 @@ class SearchBox extends StatefulWidget {
 }
 
 class _SearchBoxState extends State<SearchBox> {
+  Future<CreateBoxList>? _futureCreateBoxList;
+  TextEditingController nameBox = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +54,11 @@ class _SearchBoxState extends State<SearchBox> {
                   'assets/images/psp-logo.svg',
                   color: ColorsPage.gray,
                 ),
-                const TextField(
+                TextField(
+                  controller: nameBox,
                   keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    labelText: "Procurar por uma caixa",
+                  decoration: const InputDecoration(
+                    labelText: "Procurar uma caixa",
                     labelStyle: TextStyle(color: ColorsPage.greenDark),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -47,8 +72,17 @@ class _SearchBoxState extends State<SearchBox> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    context.go('/Boxes');
+                  onPressed: () async {
+                    setState(() {
+                      _futureCreateBoxList = CreateBox(nameBox.text);
+                    });
+                    final createBox = await _futureCreateBoxList;
+
+                    if (createBox != null) {
+                      _redirectToBoxPage(createBox.id);
+                    } else {
+                      print('Erro na criação da caixa');
+                    }
                   },
                   style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(ColorsPage.green),
@@ -60,6 +94,24 @@ class _SearchBoxState extends State<SearchBox> {
           ),
         ),
       ),
+    );
+  }
+
+  void _redirectToBoxPage(String id) {
+    context.push('/Boxes/$id');
+  }
+}
+
+class CreateBoxList {
+  final String title;
+  final String id;
+
+  const CreateBoxList({required this.title, required this.id});
+
+  factory CreateBoxList.fromJson(Map<String, dynamic> json) {
+    return CreateBoxList(
+      title: json['title'],
+      id: json['id'],
     );
   }
 }

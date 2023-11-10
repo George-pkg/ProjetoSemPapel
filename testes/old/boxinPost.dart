@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
-import 'package:my_app/testes/old/BoxOpen.dart';
-import 'package:my_app/testes/old/appBarDynamica.dart';
+
+import '../../../testes/old/BoxOpen.dart';
+import '../../../testes/old/appBarDynamica.dart'; // Importe o módulo dart:math
 
 Future<List<Boxin>> listBox() async {
   final response = await http.get(Uri.parse('http://localhost:5000/json/twoBox.json'));
@@ -234,11 +235,11 @@ class _boxinPostState extends State<boxinPost> {
                       );
                     }
 
-                    return Center(
-                      child: Container(
+                    return const Center(
+                      child: SizedBox(
                         width: 90,
                         height: 90,
-                        child: const CircularProgressIndicator(
+                        child: CircularProgressIndicator(
                           color: Colors.deepPurple,
                         ),
                       ),

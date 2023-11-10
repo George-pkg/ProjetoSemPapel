@@ -97,25 +97,8 @@ class _NewBoxState extends State<NewBox> {
     );
   }
 
-  FutureBuilder<CreateBoxList> buildFutureBuilder() {
-    String error = 'error';
-    return FutureBuilder<CreateBoxList>(
-      future: _futureCreateBoxList,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data!.id);
-        } else if (snapshot.hasError) {
-          return Text(error);
-        }
-
-        return const CircularProgressIndicator();
-      },
-    );
-  }
-
   void _redirectToBoxPage(String id) {
-    // Redirecione a rota aqui
-    context.go('/Boxes/$id');
+    context.push('/Boxes/$id');
   }
 }
 
