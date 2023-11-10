@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, deprecated_member_use
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +90,28 @@ class _BoxesState extends State<Boxes> {
                               onPressed: () async {
                                 FilePickerResult? result = await FilePicker.platform.pickFiles();
                                 if (result != null) {
-                                  print(result.files.map((file) => file.path).toList());
+                                  try {
+                                    // Enviar o arquivo para a API
+                                    String fileBase64 = base64Encode(
+                                        await File(result.files.single.path!).readAsBytes());
+
+                                    // Substitua a URL da API conforme necessário
+                                    final response = await http.post(
+                                      Uri.parse('https://api.projetosempapel.com/upload'),
+                                      body: {'file': fileBase64},
+                                    );
+
+                                    if (response.statusCode == 200) {
+                                      // Lida com a resposta da API
+                                      print('Arquivo enviado com sucesso');
+                                    } else {
+                                      // Lidar com erros da API
+                                      print('Erro ao enviar o arquivo para a API');
+                                    }
+                                  } catch (e) {
+                                    // Lidar com erros durante o processo de envio
+                                    print('Erro ao processar o arquivo: $e');
+                                  }
                                 } else {
                                   // O usuário cancelou a seleção
                                 }
