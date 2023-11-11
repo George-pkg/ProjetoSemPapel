@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, deprecated_member_use
+// ignore_for_file: file_names, deprecated_member_use, avoid_print, non_constant_identifier_names
 import 'dart:convert';
 import 'dart:io';
 
@@ -95,9 +95,9 @@ class _BoxesState extends State<Boxes> {
                                     String fileBase64 = base64Encode(
                                         await File(result.files.single.path!).readAsBytes());
 
-                                    // Substitua a URL da API conforme necessário
                                     final response = await http.post(
-                                      Uri.parse('https://api.projetosempapel.com/upload'),
+                                      Uri.parse(
+                                          'https://api.projetosempapel.com/Boxes/${snapshot.data!.id!}/files'),
                                       body: {'file': fileBase64},
                                     );
 
@@ -107,6 +107,8 @@ class _BoxesState extends State<Boxes> {
                                     } else {
                                       // Lidar com erros da API
                                       print('Erro ao enviar o arquivo para a API');
+                                      print(
+                                          'https://api.projetosempapel.com/Boxes/${snapshot.data!.id!}/files');
                                     }
                                   } catch (e) {
                                     // Lidar com erros durante o processo de envio
@@ -134,7 +136,6 @@ class _BoxesState extends State<Boxes> {
                             child: InkWell(
                               onTap: () {
                                 context.push('/Files/${itens.files![index].sId}');
-                                print(itens.files![index].sId);
                               },
                               child: Column(
                                 children: [

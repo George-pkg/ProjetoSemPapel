@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, deprecated_member_use, non_constant_identifier_names, file_names
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,6 +37,7 @@ class NewBox extends StatefulWidget {
 class _NewBoxState extends State<NewBox> {
   Future<CreateBoxList>? _futureCreateBoxList;
   TextEditingController nameBox = TextEditingController();
+  final _validationKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,49 +50,57 @@ class _NewBoxState extends State<NewBox> {
           child: Container(
             padding: const EdgeInsets.all(8),
             width: 400,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  'assets/images/psp-logo.svg',
-                  color: ColorsPage.gray,
-                ),
-                TextField(
-                  controller: nameBox,
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    labelText: "Criar uma caixa",
-                    labelStyle: TextStyle(color: ColorsPage.greenDark),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(color: ColorsPage.green),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(color: ColorsPage.green),
+            child: Form(
+              key: _validationKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/psp-logo.svg',
+                    color: ColorsPage.gray,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null) {
+                        return "O nome não pode ser nulo";
+                      } else if (value.length < 3) {
+                        return "O título precisa ter no mínimo 3 caracteres";
+                      }
+
+                      return null;
+                    },
+                    controller: nameBox,
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      labelText: "Criar uma caixa",
+                      labelStyle: TextStyle(color: ColorsPage.greenDark),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: ColorsPage.green),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: ColorsPage.green),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      _futureCreateBoxList = CreateBox(nameBox.text);
-                    });
-                    final createBox = await _futureCreateBoxList;
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () async {
+                      setState(() {
+                        _futureCreateBoxList = CreateBox(nameBox.text);
+                      });
+                      final createBox = await _futureCreateBoxList;
 
-                    if (createBox != null) {
-                      _redirectToBoxPage(createBox.id);
-                    } else {
-                      print('Erro na criação da caixa');
-                    }
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(ColorsPage.green),
-                      fixedSize: MaterialStatePropertyAll(Size(400, 50))),
-                  child: const Text('Criar'),
-                ),
-              ],
+                      ValidationBox(createBox!.id);
+                    },
+                    style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(ColorsPage.green),
+                        fixedSize: MaterialStatePropertyAll(Size(400, 50))),
+                    child: const Text('Criar'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -97,8 +108,10 @@ class _NewBoxState extends State<NewBox> {
     );
   }
 
-  void _redirectToBoxPage(String id) {
-    context.push('/Boxes/$id');
+  ValidationBox(String id) {
+    if (_validationKey.currentState!.validate()) {
+      context.push('/Boxes/$id');
+    }
   }
 }
 

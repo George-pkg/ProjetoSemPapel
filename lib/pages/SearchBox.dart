@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, deprecated_member_use, non_constant_identifier_names, file_names
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, non_constant_identifier_names, camel_case_types, deprecated_member_use
+
 import 'dart:convert';
 import 'dart:math';
 

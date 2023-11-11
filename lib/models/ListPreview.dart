@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class ListPreview {
   int? id;
   String? title;
@@ -22,4 +24,3 @@ class ListPreview {
     return data;
   }
 }
-
