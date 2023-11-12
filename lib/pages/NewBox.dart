@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/components/decoration_input.dart';
+import 'package:my_app/components/show_snackbar.dart';
 
 import 'package:my_app/widgets/appBarDynamic.dart';
 import 'package:my_app/utils/colors.dart';
@@ -91,11 +92,7 @@ class _NewBoxState extends State<NewBox> {
                       } catch (e) {
                         // Handle error, show a snackbar or display an error message
                         print('Error creating box: $e');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Erro ao criar a caixa. Por favor, tente novamente.'),
-                          ),
-                        );
+                        ShowSnackBar(context: context, label: 'Erro ao criar a caixa. Por favor, tente novamente.');
                       }
                     },
                     style: const ButtonStyle(
