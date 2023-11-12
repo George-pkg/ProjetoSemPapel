@@ -33,6 +33,15 @@ AppBar appBarDaynamic(BuildContext context) {
           SizedBox(
             width: 40,
             child: TextButton(
+                onPressed: () {},
+                child: const Icon(
+                  Icons.photo_camera,
+                  color: ColorsPage.whiteSmoke,
+                )),
+          ),
+          SizedBox(
+            width: 40,
+            child: TextButton(
               onPressed: () => context.push('/Login'),
               child: const Icon(Icons.logout, color: ColorsPage.whiteSmoke),
             ),
