@@ -1,6 +1,5 @@
 // ignore_for_file: file_names, deprecated_member_use, avoid_print, non_constant_identifier_names
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
+import 'package:my_app/components/show_snackbar.dart';
 
 import 'package:my_app/widgets/appBarDynamic.dart';
 import 'package:my_app/utils/colors.dart';
@@ -91,31 +91,40 @@ class _BoxesState extends State<Boxes> {
                                 FilePickerResult? result = await FilePicker.platform.pickFiles();
                                 if (result != null) {
                                   try {
-                                    // Enviar o arquivo para a API
-                                    String fileBase64 = base64Encode(
-                                        await File(result.files.single.path!).readAsBytes());
+                                    PlatformFile file = result.files.first;
+
+                                    final String mimeType;
+
+                                    if (file.extension == "png" || file.extension == "jpeg") {
+                                      mimeType = "image/${file.extension}";
+                                    } else {
+                                      mimeType = "application/${file.extension}";
+                                    }
+
+                                    Map map = {
+                                      "originalName": file.name,
+                                      "mimeType": mimeType,
+                                      "size": file.size,
+                                      "url": file.bytes
+                                    };
+                                    String bodyJson = json.encode(map);
 
                                     final response = await http.post(
                                       Uri.parse(
                                           'https://api.projetosempapel.com/Boxes/${snapshot.data!.id!}/files'),
-                                      body: {'file': fileBase64},
+                                      body: bodyJson,
                                     );
 
                                     if (response.statusCode == 200) {
-                                      // Lida com a resposta da API
                                       print('Arquivo enviado com sucesso');
                                     } else {
-                                      // Lidar com erros da API
                                       print('Erro ao enviar o arquivo para a API');
-                                      print(
-                                          'https://api.projetosempapel.com/Boxes/${snapshot.data!.id!}/files');
                                     }
-                                  } catch (e) {
-                                    // Lidar com erros durante o processo de envio
-                                    print('Erro ao processar o arquivo: $e');
+                                  } catch (erro) {
+                                    print('Erro ao processar o arquivo: $erro');
                                   }
                                 } else {
-                                  // O usuário cancelou a seleção
+                                  ShowSnackBar(context: context, label: "Arquivo não selecionado!");
                                 }
                               },
                               child: const Text(

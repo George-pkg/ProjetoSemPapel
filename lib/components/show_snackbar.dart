@@ -17,5 +17,6 @@ ShowSnackBar({
     showCloseIcon: true,
   );
 
+  ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

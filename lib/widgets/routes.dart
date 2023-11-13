@@ -5,7 +5,6 @@ import 'package:my_app/pages/NewBox.dart';
 import 'package:my_app/pages/Login.dart';
 import 'package:my_app/pages/filesBox.dart';
 import 'package:my_app/pages/searchBox.dart';
-import 'package:my_app/utils/mm.dart';
 
 final routes = GoRouter(initialLocation: '/NewBox', routes: [
   GoRoute(
@@ -33,6 +32,4 @@ final routes = GoRouter(initialLocation: '/NewBox', routes: [
       return filesBox(idFile: id);
     },
   ),
-], observers: [
-  MyNavigatorObserver()
-]);
+],);

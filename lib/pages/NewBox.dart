@@ -29,7 +29,6 @@ Future<CreateBoxList> CreateBox(String title) async {
       throw Exception('Erro ao se conectar ao Servidor');
     }
   } catch (e) {
-    print('Erro ao criar a caixa: $e');
     throw Exception('Erro ao criar a caixa');
   }
 }
@@ -46,65 +45,88 @@ class _NewBoxState extends State<NewBox> {
   TextEditingController nameBox = TextEditingController();
   final _validationKey = GlobalKey<FormState>();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarDaynamic(context),
-      backgroundColor: ColorsPage.whiteSmoke,
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            width: 400,
-            child: Form(
-              key: _validationKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/psp-logo.svg',
-                    color: ColorsPage.gray,
-                  ),
-                  TextFormField(
-                      validator: (value) {
-                        if (value == null) {
-                          return "O nome não pode ser nulo";
-                        } else if (value.length < 3) {
-                          return "O título precisa ter no mínimo 3 caracteres";
-                        }
-
-                        return null;
-                      },
-                      controller: nameBox,
-                      keyboardType: TextInputType.text,
-                      decoration: DecorationInput("Cria nova caixa", ColorsPage.greenDark)),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        setState(() {
-                          _futureCreateBoxList = CreateBox(nameBox.text);
-                        });
-                        final createBox = await _futureCreateBoxList;
-
-                        ValidationBox(createBox!.id);
-                      } catch (e) {
-                        // Handle error, show a snackbar or display an error message
-                        print('Error creating box: $e');
-                        ShowSnackBar(context: context, label: 'Erro ao criar a caixa. Por favor, tente novamente.');
+  Widget _body() {
+    return SingleChildScrollView(
+      reverse: true,
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          width: 400,
+          child: Form(
+            key: _validationKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/images/psp-logo.svg',
+                  color: ColorsPage.gray,
+                ),
+                TextFormField(
+                    validator: (value) {
+                      if (value == null) {
+                        return "O nome não pode ser nulo";
+                      } else if (value.length < 3) {
+                        return "O título precisa ter no mínimo 3 caracteres";
                       }
+
+                      return null;
                     },
-                    style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(ColorsPage.green),
-                        fixedSize: MaterialStatePropertyAll(Size(400, 50))),
-                    child: const Text('Criar'),
-                  ),
-                ],
-              ),
+                    controller: nameBox,
+                    keyboardType: TextInputType.text,
+                    decoration: DecorationInput("Cria nova caixa", ColorsPage.greenDark)),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      setState(() {
+                        _futureCreateBoxList = CreateBox(nameBox.text);
+                      });
+                      final createBox = await _futureCreateBoxList;
+
+                      ValidationBox(createBox!.id);
+                    } catch (e) {
+                      // Handle error, show a snackbar or display an error message
+                      print('Error creating box: $e');
+                      ShowSnackBar(
+                          context: context,
+                          label: 'Erro ao criar a caixa. Por favor, tente novamente.');
+                    }
+                  },
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(ColorsPage.green),
+                      fixedSize: MaterialStatePropertyAll(Size(400, 50))),
+                  child: const Text('Criar'),
+                ),
+              ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(color: ColorsPage.whiteSmoke),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SvgPicture.asset(
+              'assets/images/psp-background.svg',
+              fit: BoxFit.contain,
+              color: ColorsPage.green,
+              alignment: AlignmentDirectional.bottomStart,
+              width: double.infinity,
+            ),
+          ),
+          Scaffold(
+            appBar: appBarDaynamic(context),
+            backgroundColor: Colors.transparent,
+            body: _body(),
+          )
+        ],
       ),
     );
   }
