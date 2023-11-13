@@ -112,7 +112,12 @@ class _BoxesState extends State<Boxes> {
                                     final response = await http.post(
                                       Uri.parse(
                                           'https://api.projetosempapel.com/Boxes/${snapshot.data!.id!}/files'),
-                                      body: bodyJson,
+                                      body: jsonEncode({
+                                        'originalName': file.name,
+                                        'mimeType': mimeType,
+                                        'size': file.size,
+                                        "url": file.path,
+                                      }),
                                     );
 
                                     if (response.statusCode == 200) {
