@@ -1,14 +1,16 @@
-// ignore_for_file: file_names, deprecated_member_use, avoid_print, non_constant_identifier_names
+// ignore_for_file: file_names, deprecated_member_use, avoid_print, non_constant_identifier_names, use_build_context_synchronously
 import 'dart:convert';
-
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+
+import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
-import 'package:my_app/components/show_snackbar.dart';
+import 'package:http_parser/http_parser.dart';
 
+import 'package:my_app/components/show_snackbar.dart';
 import 'package:my_app/widgets/appBarDynamic.dart';
 import 'package:my_app/utils/colors.dart';
 import 'package:my_app/models/boxDice.dart';
@@ -34,30 +36,58 @@ class Boxes extends StatefulWidget {
 
 class _BoxesState extends State<Boxes> {
   late Future<BoxDice> _futureBoxDice;
+  late ProjectProvider _projectProvider;
 
   @override
   void initState() {
     super.initState();
     _futureBoxDice = ListBox(widget.id);
+    _projectProvider = ProjectProvider();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarDaynamic(context),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
+    return Container(
+      color: ColorsPage.whiteSmoke,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SvgPicture.asset(
+              'assets/images/psp-background.svg',
+              fit: BoxFit.contain,
+              color: ColorsPage.green,
+              alignment: AlignmentDirectional.bottomStart,
+              width: double.infinity,
+            ),
+          ),
+          Scaffold(
+            appBar: appBarDaynamic(context),
+            backgroundColor: Colors.transparent,
+            body: _body(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _body() {
+    return SingleChildScrollView(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            color: Colors.white70,
             padding: const EdgeInsets.only(top: 60),
             child: FutureBuilder(
               future: _futureBoxDice,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return const SizedBox(
+                      height: 400,
+                      child: Center(child: CircularProgressIndicator()));
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
-                } else if (!snapshot.hasData) {
-                  return const Text('No data available');
                 } else {
                   return Column(
                     children: [
@@ -88,45 +118,30 @@ class _BoxesState extends State<Boxes> {
                             width: 500,
                             child: TextButton(
                               onPressed: () async {
-                                FilePickerResult? result = await FilePicker.platform.pickFiles();
-                                if (result != null) {
-                                  try {
-                                    PlatformFile file = result.files.first;
+                                FilePickerResult? result = await FilePicker.platform
+                                    .pickFiles(type: FileType.any, withData: true);
 
-                                    final String mimeType;
+                                if (result != null && result.files.isNotEmpty) {
+                                  List<int> bytes = result.files.first.bytes!.cast();
+                                  var name = result.files.first.name;
 
-                                    if (file.extension == "png" || file.extension == "jpeg") {
-                                      mimeType = "image/${file.extension}";
-                                    } else {
-                                      mimeType = "application/${file.extension}";
+                                  if (bytes != null) {
+                                    try {
+                                      _projectProvider.test(bytes, name, snapshot.data!.id!);
+                                      ShowSnackBar(
+                                          context: context,
+                                          label: "arquivo enviado com sucesso!",
+                                          isErro: false);
+                                    } catch (error) {
+                                      ShowSnackBar(
+                                          context: context,
+                                          label: "Erro ao enviar arquivo ao servidor!");
+                                      print('Erro ao enviar o arquivo: $error');
                                     }
-
-                                    Map map = {
-                                      "originalName": file.name,
-                                      "mimeType": mimeType,
-                                      "size": file.size,
-                                      "url": file.bytes
-                                    };
-                                    String bodyJson = json.encode(map);
-
-                                    final response = await http.post(
-                                      Uri.parse(
-                                          'https://api.projetosempapel.com/Boxes/${snapshot.data!.id!}/files'),
-                                      body: jsonEncode({
-                                        'originalName': file.name,
-                                        'mimeType': mimeType,
-                                        'size': file.size,
-                                        "url": file.path,
-                                      }),
-                                    );
-
-                                    if (response.statusCode == 200) {
-                                      print('Arquivo enviado com sucesso');
-                                    } else {
-                                      print('Erro ao enviar o arquivo para a API');
-                                    }
-                                  } catch (erro) {
-                                    print('Erro ao processar o arquivo: $erro');
+                                  } else {
+                                    ShowSnackBar(
+                                        context: context,
+                                        label: "Erro ao ler arquivo selecionado!");
                                   }
                                 } else {
                                   ShowSnackBar(context: context, label: "Arquivo não selecionado!");
@@ -177,5 +192,30 @@ class _BoxesState extends State<Boxes> {
         ),
       ),
     );
+  }
+}
+
+class ProjectProvider {
+  // * constructor
+  ProjectProvider() : _dio = Dio();
+
+  // * dio
+  late Response _response;
+  late final Dio _dio;
+
+  // * rest api
+
+  test(List<int> bytes, String name, dynamic id) async {
+    String extension = name.split(".").last;
+
+    var formData = FormData.fromMap({
+      "file": MultipartFile.fromBytes(
+        bytes,
+        filename: name,
+        contentType: MediaType("File", extension),
+      ),
+    });
+
+    _response = await _dio.post("https://api.projetosempapel.com/Boxes/$id/files", data: formData);
   }
 }
