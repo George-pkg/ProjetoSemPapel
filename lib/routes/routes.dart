@@ -4,6 +4,7 @@ import 'package:my_app/pages/Boxes.dart';
 import 'package:my_app/pages/NewBox.dart';
 import 'package:my_app/pages/Login.dart';
 import 'package:my_app/pages/filesBox.dart';
+import 'package:my_app/pages/qr_scan.dart';
 import 'package:my_app/pages/searchBox.dart';
 
 final routes = GoRouter(
@@ -34,5 +35,9 @@ final routes = GoRouter(
         return filesBox(idFile: id);
       },
     ),
+    GoRoute(
+      path: '/QrSCan',
+      builder: (context, state) => const QrScan(),
+    )
   ],
 );

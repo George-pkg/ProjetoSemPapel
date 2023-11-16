@@ -9,11 +9,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:my_app/components/appBarDynamic.dart';
+import 'package:my_app/components/qr_gerator.dart';
 
 import 'package:my_app/components/show_snackbar.dart';
-import 'package:my_app/widgets/appBarDynamic.dart';
+import 'package:my_app/utils/convert_time.dart';
+import 'package:my_app/utils/file_size.dart';
 import 'package:my_app/utils/colors.dart';
 import 'package:my_app/models/boxDice.dart';
+
 
 Future<BoxDice> ListBox(idPage) async {
   final response = await http.get(Uri.parse('https://api.projetosempapel.com/Boxes/$idPage'));
@@ -84,8 +88,7 @@ class _BoxesState extends State<Boxes> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox(
-                      height: 400,
-                      child: Center(child: CircularProgressIndicator()));
+                      height: 400, child: Center(child: CircularProgressIndicator()));
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 } else {
@@ -107,7 +110,7 @@ class _BoxesState extends State<Boxes> {
                           color: ColorsPage.blueDark,
                         ),
                       ),
-                      Image.asset('assets/images/quCode.png'),
+                      QrGerator("/Boxes/${widget.id}", 180),
                       Padding(
                         padding: const EdgeInsets.all(15),
                         child: DottedBorder(
@@ -121,27 +124,29 @@ class _BoxesState extends State<Boxes> {
                                 FilePickerResult? result = await FilePicker.platform
                                     .pickFiles(type: FileType.any, withData: true);
 
-                                if (result != null && result.files.isNotEmpty) {
-                                  List<int> bytes = result.files.first.bytes!.cast();
-                                  var name = result.files.first.name;
+                                final file = result!.files.first;
 
-                                  if (bytes != null) {
-                                    try {
-                                      _projectProvider.test(bytes, name, snapshot.data!.id!);
-                                      ShowSnackBar(
-                                          context: context,
-                                          label: "arquivo enviado com sucesso!",
-                                          isErro: false);
-                                    } catch (error) {
-                                      ShowSnackBar(
-                                          context: context,
-                                          label: "Erro ao enviar arquivo ao servidor!");
-                                      print('Erro ao enviar o arquivo: $error');
-                                    }
-                                  } else {
+                                if (result.files.isNotEmpty) {
+                                  List<int> bytes = file.bytes!.cast();
+                                  var name = file.name;
+
+                                  try {
+                                    await _projectProvider.test(
+                                        bytes, name, widget.id, file.extension!);
+
+                                    // Atualiza os dados da caixa após o envio bem-sucedido do arquivo
+                                    setState(() {
+                                      _futureBoxDice = ListBox(widget.id);
+                                    });
                                     ShowSnackBar(
                                         context: context,
-                                        label: "Erro ao ler arquivo selecionado!");
+                                        label: "arquivo enviado com sucesso!",
+                                        isErro: false);
+                                  } catch (error) {
+                                    ShowSnackBar(
+                                        context: context,
+                                        label: "Erro ao enviar arquivo ao servidor!");
+                                    print('Erro ao enviar o arquivo: $error');
                                   }
                                 } else {
                                   ShowSnackBar(context: context, label: "Arquivo não selecionado!");
@@ -174,9 +179,13 @@ class _BoxesState extends State<Boxes> {
                                         const TextStyle(fontSize: 18, fontFamily: "Goldplay-black"),
                                   ),
                                   Text(itens.files![index].mimeType!),
-                                  const SizedBox(height: 20),
-                                  Image.asset('assets/images/quCode.png'),
-                                  const SizedBox(height: 20),
+                                  Text(getFileSizeString(bytes: itens.files![index].size!)),
+                                  const SizedBox(height: 10),
+                                  Text(convertTime(itens.files![index].updatedAt!),
+                                      style: const TextStyle(color: ColorsPage.greenDark)),
+                                  const SizedBox(height: 10),
+                                  QrGerator(itens.files![index].url!, 140),
+                                  const SizedBox(height: 50),
                                 ],
                               ),
                             ),
@@ -205,14 +214,20 @@ class ProjectProvider {
 
   // * rest api
 
-  test(List<int> bytes, String name, dynamic id) async {
-    String extension = name.split(".").last;
+  test(List<int> bytes, String name, dynamic id, String extension) async {
+    final String file;
+
+    if (extension == "jpeg" || extension == "png" || extension == "jpg") {
+      file = "image";
+    } else {
+      file = "application";
+    }
 
     var formData = FormData.fromMap({
       "file": MultipartFile.fromBytes(
         bytes,
         filename: name,
-        contentType: MediaType("File", extension),
+        contentType: MediaType(file, extension),
       ),
     });
 

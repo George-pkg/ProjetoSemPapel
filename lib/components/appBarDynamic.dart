@@ -7,7 +7,10 @@ import 'package:my_app/utils/colors.dart';
 AppBar appBarDaynamic(BuildContext context) {
   return AppBar(
     automaticallyImplyLeading: true,
-    leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new)),
+    leading: IconButton(
+        onPressed: () {
+        },
+        icon: const Icon(Icons.arrow_back_ios_new)),
     backgroundColor: ColorsPage.green,
     actions: [
       ButtonBar(
@@ -33,7 +36,9 @@ AppBar appBarDaynamic(BuildContext context) {
           SizedBox(
             width: 40,
             child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push('/QrScan');
+                },
                 child: const Icon(
                   Icons.photo_camera,
                   color: ColorsPage.whiteSmoke,

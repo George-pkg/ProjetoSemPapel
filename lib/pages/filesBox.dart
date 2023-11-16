@@ -1,14 +1,17 @@
 // ignore_for_file: file_names, non_constant_identifier_names, camel_case_types, deprecated_member_use
 
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_app/components/appBarDynamic.dart';
+import 'package:my_app/components/qr_gerator.dart';
 import 'package:my_app/models/fileJson.dart';
 import 'package:my_app/utils/colors.dart';
-import 'package:my_app/widgets/appBarDynamic.dart';
+import 'package:my_app/utils/convert_time.dart';
+import 'package:my_app/utils/file_size.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 Future<fileJson> File(idFile) async {
   final response = await http.get(Uri.parse('https://api.projetosempapel.com/files/$idFile'));
@@ -74,7 +77,10 @@ class _filesBoxState extends State<filesBox> {
                           color: ColorsPage.blueDark,
                         ),
                       ),
-                      Image.asset('assets/images/quCode.png'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: QrGerator(file.url!, 180),
+                      ),
                       const Text('Tipo de aqruivo:',
                           style: TextStyle(fontFamily: "Goldplay-black", fontSize: 19)),
                       Text(file.mimeType!, style: const TextStyle(fontSize: 16)),
@@ -83,7 +89,17 @@ class _filesBoxState extends State<filesBox> {
                           style: TextStyle(fontFamily: "Goldplay-black", fontSize: 19)),
                       Text(getFileSizeString(bytes: file.size!),
                           style: const TextStyle(fontSize: 16)),
-                      
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Text(convertTime(file.updatedAt!),
+                            style: const TextStyle(
+                                color: ColorsPage.green,
+                                fontSize: 18,
+                                fontFamily: "Goldplay-black")),
+                      ),
+                      ElevatedButton(
+                          onPressed: () => launchUrl(Uri.parse(file.url!)),
+                          child: const Text('Abrir'))
                     ],
                   );
                 }
@@ -91,12 +107,5 @@ class _filesBoxState extends State<filesBox> {
             ),
           ),
         ));
-  }
-
-  static String getFileSizeString({required int bytes, int decimals = 0}) {
-    const suffixes = ["b", "kb", "mb", "gb", "tb"];
-    if (bytes == 0) return '0${suffixes[0]}';
-    var i = (log(bytes) / log(1024)).floor();
-    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
   }
 }
