@@ -1,9 +1,9 @@
-// ignore_for_file: non_constant_identifier_names
-
+// libs
 import 'package:flutter/material.dart';
+// models/utils
 import 'package:my_app/utils/colors.dart';
 
-ShowSnackBar({
+showSnackBar({
   required BuildContext context,
   required String label,
   bool isErro = true,

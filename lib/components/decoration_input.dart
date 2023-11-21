@@ -1,8 +1,9 @@
+// libs
 import 'package:flutter/material.dart';
+// models/utils
 import 'package:my_app/utils/colors.dart';
 
-// ignore: non_constant_identifier_names
-InputDecoration DecorationInput(
+InputDecoration decorationInput(
   String label,
   Color colors,
 ) {

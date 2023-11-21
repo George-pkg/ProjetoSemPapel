@@ -1,6 +1,8 @@
+// libs
 import 'package:flutter/material.dart';
-import 'package:my_app/utils/colors.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+// models/utils
+import 'package:my_app/utils/colors.dart';
 
 class QrGerator extends StatelessWidget {
   const QrGerator(this.route, this.size, {super.key});

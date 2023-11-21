@@ -1,43 +1,23 @@
-import 'package:go_router/go_router.dart';
-import 'package:my_app/pages/Boxes.dart';
+// libs
+import 'package:get/get_navigation/get_navigation.dart';
+// pages
+import 'package:my_app/pages/boxes/boxes_page.dart';
+import 'package:my_app/pages/filesBox/files_box.dart';
+import 'package:my_app/pages/home/home_page.dart';
+import 'package:my_app/pages/login/login.dart';
+import 'package:my_app/pages/newBox/new_box.dart';
+import 'package:my_app/pages/qrScan/qr_scan.dart';
+import 'package:my_app/pages/searchBox/search_box.dart';
 
-import 'package:my_app/pages/NewBox.dart';
-import 'package:my_app/pages/Login.dart';
-import 'package:my_app/pages/filesBox.dart';
-import 'package:my_app/pages/qr_scan.dart';
-import 'package:my_app/pages/searchBox.dart';
-
-final routes = GoRouter(
-  initialLocation: '/NewBox',
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const Login(),
-    ),
-    GoRoute(
-      path: '/NewBox',
-      builder: (context, state) => const NewBox(),
-    ),
-    GoRoute(
-      path: '/SearchBox',
-      builder: ((context, state) => const SearchBox()),
-    ),
-    GoRoute(
-        path: '/Boxes/:id',
-        builder: (context, state) {
-          final id = state.pathParameters['id'];
-          return Boxes(id: id);
-        }),
-    GoRoute(
-      path: '/Files/:idFile',
-      builder: (context, state) {
-        final id = state.pathParameters['idFile'];
-        return filesBox(idFile: id);
-      },
-    ),
-    GoRoute(
-      path: '/QrSCan',
-      builder: (context, state) => const QrScan(),
-    )
-  ],
-);
+class Routes {
+  static final routes = [
+    GetPage(name: '/', page: () => const HomePage()),
+    GetPage(name: '/Login', page: () => const Login()),
+    GetPage(name: '/NewBox', page: () => const NewBox()),
+    GetPage(name: '/SearchBox', page: () => const SearchBox()),
+    GetPage(name: '/Boxes/:id', page: () => const Boxes()),
+    GetPage(name: '/Files/:idFile', page: () => const FilesBox()),
+    GetPage(name: '/QrSCan', page: () => const QrScan()),
+    
+  ];
+}
