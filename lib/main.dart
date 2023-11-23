@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 //pages
-import 'package:my_app/routes/routes.dart';
+import 'package:sem_papel/routes/routes.dart';
 
 void main() {
   runApp(const MyApp());

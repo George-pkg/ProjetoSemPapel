@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 // components/widgets
-import 'package:my_app/components/api/create_box.dart';
-import 'package:my_app/components/decoration_input.dart';
-import 'package:my_app/components/show_snackbar.dart';
-import 'package:my_app/components/appbar_dynamic.dart';
+import 'package:sem_papel/components/api/create_box.dart';
+import 'package:sem_papel/components/backgroud/backgroud.dart';
+import 'package:sem_papel/components/decoration_input.dart';
+import 'package:sem_papel/components/show_snackbar.dart';
+import 'package:sem_papel/components/appbar_dynamic.dart';
 // models/utils
-import 'package:my_app/models/create_box_list.dart';
-import 'package:my_app/utils/colors.dart';
+import 'package:sem_papel/models/create_box_list.dart';
+import 'package:sem_papel/utils/colors.dart';
 
 class SearchBox extends StatefulWidget {
   const SearchBox({super.key});
@@ -25,27 +26,24 @@ class _SearchBoxState extends State<SearchBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(color: ColorsPage.whiteSmoke),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SvgPicture.asset(
-              'assets/images/psp-background.svg',
-              fit: BoxFit.contain,
-              colorFilter: const ColorFilter.mode(ColorsPage.green, BlendMode.srcATop),
-              alignment: AlignmentDirectional.bottomStart,
-              width: double.infinity,
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isDesktop = constraints.maxWidth > 700;
+
+        return Container(
+          decoration: const BoxDecoration(color: ColorsPage.whiteSmoke),
+          child: Stack(
+            children: [
+              isDesktop ? deskotBackgroud(context) : mobileBackgroud(),
+              Scaffold(
+                appBar: appBarDaynamic(context),
+                backgroundColor: Colors.transparent,
+                body: _body(),
+              )
+            ],
           ),
-          Scaffold(
-            appBar: appBarDaynamic(context),
-            backgroundColor: Colors.transparent,
-            body: _body(),
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -87,9 +85,7 @@ class _SearchBoxState extends State<SearchBox> {
 
                       validationBox(createBox!.id);
                     } catch (e) {
-                      showSnackBar(
-                          context: context,
-                          label: 'Erro ao criar a caixa. Por favor, tente novamente.');
+                      snackBar(label: 'Erro ao criar a caixa. Por favor, tente novamente.');
                     }
                   },
                   style: const ButtonStyle(
@@ -109,5 +105,12 @@ class _SearchBoxState extends State<SearchBox> {
     if (_validationKey.currentState!.validate()) {
       Get.toNamed('/Boxes/$id');
     }
+  }
+
+  snackBar({
+    required String label,
+    bool isErro = true,
+  }) {
+    return showSnackBar(context: context, label: label);
   }
 }

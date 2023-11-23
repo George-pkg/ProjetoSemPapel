@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // models/utils
-import 'package:my_app/utils/colors.dart';
+import 'package:sem_papel/utils/colors.dart';
 
 AppBar appBarDaynamic(BuildContext context) {
   return AppBar(
@@ -12,6 +12,11 @@ AppBar appBarDaynamic(BuildContext context) {
           Get.back();
         },
         icon: const Icon(Icons.arrow_back_ios_new)),
+    title: IconButton(
+        onPressed: () {
+          Get.toNamed('/');
+        },
+        icon: const Icon(Icons.home)),
     backgroundColor: ColorsPage.green,
     actions: [
       ButtonBar(

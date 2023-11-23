@@ -1,8 +1,8 @@
 // libs
 import 'package:flutter/material.dart';
 // pages
-import 'package:my_app/pages/home/home_desktop.dart';
-import 'package:my_app/pages/home/home_mobile.dart';
+import 'package:sem_papel/pages/home/home_desktop.dart';
+import 'package:sem_papel/pages/home/home_mobile.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -7,16 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 // components/widgets
-import 'package:my_app/components/api/list_box_api.dart';
-import 'package:my_app/components/api/upload_file.dart';
-import 'package:my_app/components/appbar_dynamic.dart';
-import 'package:my_app/components/qr_gerator.dart';
-import 'package:my_app/components/show_snackbar.dart';
+import 'package:sem_papel/components/api/list_box_api.dart';
+import 'package:sem_papel/components/api/upload_file.dart';
+import 'package:sem_papel/components/appbar_dynamic.dart';
+import 'package:sem_papel/components/backgroud/backgroud.dart';
+import 'package:sem_papel/components/qr_gerator.dart';
+import 'package:sem_papel/components/show_snackbar.dart';
 // models/utils
-import 'package:my_app/models/box_dice.dart';
-import 'package:my_app/utils/colors.dart';
-import 'package:my_app/utils/convert_time.dart';
-import 'package:my_app/utils/file_size.dart';
+import 'package:sem_papel/models/box_dice.dart';
+import 'package:sem_papel/utils/colors.dart';
+import 'package:sem_papel/utils/convert_time.dart';
+import 'package:sem_papel/utils/file_size.dart';
 
 class BoxesDesktop extends StatefulWidget {
   final dynamic id;
@@ -43,22 +44,7 @@ class _BoxesDesktopState extends State<BoxesDesktop> {
       color: ColorsPage.whiteSmoke,
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3,
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: Transform.scale(
-                scale: 2,
-                child: SvgPicture.asset(
-                  'assets/images/psp-background.svg',
-                  fit: BoxFit.fill,
-                  colorFilter: const ColorFilter.mode(ColorsPage.green, BlendMode.srcATop),
-                  alignment: AlignmentDirectional.bottomCenter,
-                ),
-              ),
-            ),
-          ),
+          deskotBackgroud(context),
           Scaffold(
             appBar: appBarDaynamic(context),
             backgroundColor: Colors.transparent,

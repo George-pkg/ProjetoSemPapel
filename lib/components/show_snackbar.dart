@@ -1,7 +1,7 @@
 // libs
 import 'package:flutter/material.dart';
 // models/utils
-import 'package:my_app/utils/colors.dart';
+import 'package:sem_papel/utils/colors.dart';
 
 showSnackBar({
   required BuildContext context,

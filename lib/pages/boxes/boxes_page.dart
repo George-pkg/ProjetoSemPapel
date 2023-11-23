@@ -2,8 +2,8 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 // pages
-import 'package:my_app/pages/boxes/boxes_desktop.dart';
-import 'package:my_app/pages/boxes/boxes_mobile.dart';
+import 'package:sem_papel/pages/boxes/boxes_desktop.dart';
+import 'package:sem_papel/pages/boxes/boxes_mobile.dart';
 
 class Boxes extends StatefulWidget {
   const Boxes({Key? key}) : super(key: key);

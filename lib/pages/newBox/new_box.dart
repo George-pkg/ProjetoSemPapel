@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 // components/widgets
-import 'package:my_app/components/api/create_box.dart';
-import 'package:my_app/components/decoration_input.dart';
-import 'package:my_app/components/show_snackbar.dart';
-import 'package:my_app/components/appbar_dynamic.dart';
+import 'package:sem_papel/components/api/create_box.dart';
+import 'package:sem_papel/components/backgroud/backgroud.dart';
+import 'package:sem_papel/components/decoration_input.dart';
+import 'package:sem_papel/components/show_snackbar.dart';
+import 'package:sem_papel/components/appbar_dynamic.dart';
 // models/utils
-import 'package:my_app/models/create_box_list.dart';
-import 'package:my_app/utils/colors.dart';
+import 'package:sem_papel/models/create_box_list.dart';
+import 'package:sem_papel/utils/colors.dart';
 
 class NewBox extends StatefulWidget {
   const NewBox({super.key});
@@ -31,30 +32,25 @@ class _NewBoxState extends State<NewBox> {
   @override
   Widget build(BuildContext context) {
     // corpo dentro de um container para não movimentar ao abrir teclado
-    return Container(
-      decoration: const BoxDecoration(color: ColorsPage.whiteSmoke),
-      child: Stack(
-        children: [
-          // backgroud alinhado em baixo
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SvgPicture.asset(
-              'assets/images/psp-background.svg',
-              fit: BoxFit.contain,
-              color: ColorsPage.green,
-              alignment: AlignmentDirectional.bottomStart,
-              width: double.infinity,
-            ),
-          ),
-          // um Scaffold para o corpo da pagina
-          Scaffold(
-            appBar: appBarDaynamic(context),
-            backgroundColor: Colors.transparent,
-            body: _body(),
-          )
-        ],
-      ),
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      final bool isDesktop = constraints.maxWidth > 700;
+
+      return Container(
+        decoration: const BoxDecoration(color: ColorsPage.whiteSmoke),
+        child: Stack(
+          children: [
+            // backgroud alinhado em baixo
+            isDesktop ? deskotBackgroud(context) : mobileBackgroud(),
+            // um Scaffold para o corpo da pagina
+            Scaffold(
+              appBar: appBarDaynamic(context),
+              backgroundColor: Colors.transparent,
+              body: _body(),
+            )
+          ],
+        ),
+      );
+    });
   }
 
   Widget _body() {

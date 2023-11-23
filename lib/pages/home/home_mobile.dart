@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // components/widgets
-import 'package:my_app/components/appbar_dynamic.dart';
-import 'package:my_app/components/box_open.dart';
+import 'package:sem_papel/components/appbar_dynamic.dart';
+import 'package:sem_papel/components/box_open.dart';
 // models/utils
-import 'package:my_app/utils/colors.dart';
+import 'package:sem_papel/utils/colors.dart';
 
 class HomeMobile extends StatefulWidget {
   const HomeMobile({super.key});
@@ -53,11 +53,9 @@ class _HomeMobileState extends State<HomeMobile> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 40),
-                child: SvgPicture.asset(
-                  'assets/images/psp-logo.svg',
-                  width: 300,
-                  colorFilter: const ColorFilter.mode(ColorsPage.gray, BlendMode.srcATop)
-                ),
+                child: SvgPicture.asset('assets/images/psp-logo.svg',
+                    width: 300,
+                    colorFilter: const ColorFilter.mode(ColorsPage.gray, BlendMode.srcATop)),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.5),

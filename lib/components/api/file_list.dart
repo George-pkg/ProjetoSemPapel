@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 // models/utils
-import 'package:my_app/models/file_json.dart';
+import 'package:sem_papel/models/file_json.dart';
 
 Future<fileJson> fileList(idFile) async {
   final response = await http.get(Uri.parse('https://api.projetosempapel.com/files/$idFile'));

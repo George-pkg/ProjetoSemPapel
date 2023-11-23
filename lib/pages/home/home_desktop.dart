@@ -2,10 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 // components/widgets
-import 'package:my_app/components/appbar_dynamic.dart';
-import 'package:my_app/components/box_open.dart';
+import 'package:sem_papel/components/appbar_dynamic.dart';
+import 'package:sem_papel/components/backgroud/backgroud.dart';
+import 'package:sem_papel/components/box_open.dart';
 // models/utils
-import 'package:my_app/utils/colors.dart';
+import 'package:sem_papel/utils/colors.dart';
 
 class HomeDesktop extends StatefulWidget {
   const HomeDesktop({super.key});
@@ -21,23 +22,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
       color: ColorsPage.whiteSmoke,
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3,
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: Transform.scale(
-                scale: 2,
-                child: SvgPicture.asset(
-                  'assets/images/psp-background.svg',
-                  fit: BoxFit.fill,
-                  colorFilter: const ColorFilter.mode(ColorsPage.green, BlendMode.srcIn),
-                  alignment: AlignmentDirectional.bottomCenter,
-                  
-                ),
-              ),
-            ),
-          ),
+          deskotBackgroud(context),
           Scaffold(
             appBar: appBarDaynamic(context),
             backgroundColor: Colors.transparent,
