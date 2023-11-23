@@ -78,6 +78,7 @@ class _LoginState extends State<Login> {
                         } else if (value.length < 8) {
                           return "A senha deve ter no mínimo 8 caracteres";
                         }
+                        return null;
                       },
                     ),
 
