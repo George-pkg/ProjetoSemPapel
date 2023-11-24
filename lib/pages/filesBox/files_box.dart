@@ -24,11 +24,21 @@ class _FilesBoxState extends State<FilesBox> {
   final String idFile = Get.parameters['idFile'] ?? 'N/A';
   late Future<fileJson> futureFile;
   bool isComents = false;
+  late int test = 0;
+  List<Comments> comments = [Comments(title: 'Comentario teste', description: 'este é um teste')];
 
   @override
   void initState() {
     super.initState();
     futureFile = fileList(idFile);
+  }
+
+  void addComments() async {
+    Comments? addComments = await addCommentData(context);
+
+    setState(() {
+      comments.add(addComments!);
+    });
   }
 
   @override
@@ -53,21 +63,50 @@ class _FilesBoxState extends State<FilesBox> {
                   return const Text('No data available');
                 } else {
                   fileJson file = snapshot.data!;
-                  return Row(
+                  return Column(
                     children: [
-                      Expanded(
-                        child: columFile(file),
-                      ),
+                      columFile(file),
+                      const SizedBox(height: 40),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            TextButton(
-                                onPressed: () => isComents = !isComents,
-                                child: const Icon(Icons.comment_rounded))
+                            IconButton(
+                                onPressed: () => setState(() => isComents = !isComents),
+                                icon: Icon(
+                                    isComents ? Icons.comments_disabled : Icons.comment_rounded,
+                                    color: ColorsPage.green)),
+                            Visibility(
+                                visible: isComents,
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(maxWidth: 800),
+                                  child: Column(
+                                    children: [
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: comments.length,
+                                        itemBuilder: (context, index) => ListTile(
+                                          title: Text(comments[index].title),
+                                          subtitle: Text(comments[index].description),
+                                          trailing: TextButton(
+                                              onPressed: () => setState(() => ()),
+                                              child: Icon(Icons.edit)),
+                                        ),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            addComments();
+                                          },
+                                          icon: const Icon(
+                                            Icons.add_circle,
+                                            color: ColorsPage.green,
+                                            size: 30,
+                                          ))
+                                    ],
+                                  ),
+                                )),
                           ],
                         ),
                       )
@@ -117,5 +156,53 @@ class _FilesBoxState extends State<FilesBox> {
             onPressed: () => launchUrl(Uri.parse(file.url!)), child: const Text('Abrir')),
       ],
     );
+  }
+}
+
+class Comments {
+  final String title;
+  final String description;
+
+  Comments({required this.title, required this.description});
+}
+
+Future<Comments?> addCommentData(BuildContext context) async {
+  late String title;
+  late String description;
+  await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Adicionar um comentário'),
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            TextField(
+              decoration: const InputDecoration(labelText: 'Titulo:'),
+              onChanged: (value) => title = value,
+            ),
+            TextField(
+              decoration: const InputDecoration(labelText: 'Descrição:'),
+              onChanged: (value) => description = value,
+            )
+          ]),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Voltar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('OK'),
+            )
+          ],
+        );
+      });
+  try {
+    return Comments(title: title, description: description);
+  } catch (e) {
+    return null;
   }
 }
