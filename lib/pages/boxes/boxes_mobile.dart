@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: avoid_print
 
 // libs
 import 'package:get/get.dart';
@@ -124,17 +124,20 @@ class _BoxesMobileState extends State<BoxesMobile> {
                                     setState(() {
                                       _futureBoxDice = listBox(widget.id);
                                     });
+                                    if (!context.mounted) return;
                                     showSnackBar(
                                         context: context,
                                         label: "arquivo enviado com sucesso!",
                                         isErro: false);
                                   } catch (error) {
+                                    if (!context.mounted) return;
                                     showSnackBar(
                                         context: context,
                                         label: "Erro ao enviar arquivo ao servidor!");
                                     print('Erro ao enviar o arquivo: $error');
                                   }
                                 } else {
+                                  if (!context.mounted) return;
                                   showSnackBar(context: context, label: "Arquivo não selecionado!");
                                 }
                               },

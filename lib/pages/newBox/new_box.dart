@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, deprecated_member_use, use_build_context_synchronously
+// ignore_for_file: avoid_print,
 
 // libs
 import 'package:flutter/material.dart';
@@ -68,7 +68,7 @@ class _NewBoxState extends State<NewBox> {
                 // logo do sem papel
                 SvgPicture.asset(
                   'assets/images/psp-logo.svg',
-                  color: ColorsPage.gray,
+                  colorFilter: const ColorFilter.mode(ColorsPage.gray, BlendMode.srcATop),
                 ),
                 // input com validador
                 TextFormField(
@@ -98,6 +98,7 @@ class _NewBoxState extends State<NewBox> {
 
                       validationBox(createBox!.id);
                     } catch (e) {
+                      if (!context.mounted) return;
                       showSnackBar(
                           context: context,
                           label: 'Erro ao criar a caixa. Por favor, tente novamente.');
