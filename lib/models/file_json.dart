@@ -1,6 +1,5 @@
-// ignore_for_file: camel_case_types
 
-class fileJson {
+class FileJson {
   String? sId;
   String? originalName;
   String? mimeType;
@@ -10,7 +9,7 @@ class fileJson {
   String? updatedAt;
   int? iV;
 
-  fileJson(
+  FileJson(
       {this.sId,
       this.originalName,
       this.mimeType,
@@ -20,7 +19,7 @@ class fileJson {
       this.updatedAt,
       this.iV});
 
-  fileJson.fromJson(Map<String, dynamic> json) {
+  FileJson.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     originalName = json['originalName'];
     mimeType = json['mimeType'];

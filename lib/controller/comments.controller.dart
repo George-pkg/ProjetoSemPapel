@@ -2,13 +2,35 @@ import 'package:get/get.dart';
 import 'package:sem_papel/models/comments_models.dart';
 
 class CommentController extends GetxController {
-  var comments = <Comments>[].obs;
+  RxBool isComments = false.obs;
 
-  void editComment(Comments updatedComment, Comments commentsvar) {
-    // Encontre o comentário na lista e atualize-o
-    final index = comments.indexWhere((item) => item == commentsvar);
+  List<Comments> listComments = <Comments>[
+    Comments(id: 1, title: 'Comentario teste', description: 'este é um teste'),
+    Comments(id: 2, title: 'Comentario teste', description: 'este é um teste')
+  ].obs;
+
+  void toggleCommentsVisibility() {
+    isComments.value = !isComments.value;
+  }
+
+  int getLastId() {
+    if (listComments.isEmpty) {
+      return 0;
+    } else {
+      return listComments.last.id!;
+    }
+  }
+
+  void addComment(Comments newComment) {
+    int newId = getLastId() + 1;
+    listComments
+        .add(Comments(id: newId, title: newComment.title, description: newComment.description));
+  }
+
+  void editComment(Comments updatedComment, Comments commentMod) {
+    final index = listComments.indexWhere((item) => item.id == commentMod.id);
     if (index >= 0) {
-      comments[index] = updatedComment;
+      listComments[index] = updatedComment;
     }
   }
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 // components/widgets
-import 'package:sem_papel/components/api/create_box.dart';
+import 'package:sem_papel/data/http/create_box.dart';
 import 'package:sem_papel/components/backgroud/backgroud.dart';
 import 'package:sem_papel/components/decoration_input.dart';
 import 'package:sem_papel/components/show_snackbar.dart';

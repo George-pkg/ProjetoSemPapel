@@ -3,17 +3,17 @@ import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:sem_papel/components/show_snackbar.dart';
-import 'package:sem_papel/models/comments_models.dart';
 import 'package:url_launcher/url_launcher.dart';
 // components/widgets
-import 'package:sem_papel/components/api/file_list.dart';
 import 'package:sem_papel/components/appbar_dynamic.dart';
 import 'package:sem_papel/components/qr_gerator.dart';
+import 'package:sem_papel/data/http/file_list.dart';
 // models/utils
-import 'package:sem_papel/models/file_json.dart';
-import 'package:sem_papel/utils/colors.dart';
+import 'package:sem_papel/models/comments_models.dart';
 import 'package:sem_papel/utils/convert_time.dart';
+import 'package:sem_papel/models/file_json.dart';
 import 'package:sem_papel/utils/file_size.dart';
+import 'package:sem_papel/utils/colors.dart';
 // controller
 import 'package:sem_papel/controller/comments.controller.dart';
 
@@ -26,12 +26,8 @@ class FilesBox extends StatefulWidget {
 
 class _FilesBoxState extends State<FilesBox> {
   final String idFile = Get.parameters['idFile']!;
-  late Future<fileJson> futureFile;
-  bool isComents = false;
-  List<Comments> listComments = [
-    Comments(title: 'Comentario teste', description: 'este é um teste')
-  ];
-  CommentController controller = Get.put(CommentController());
+  late Future<FileJson> futureFile;
+  CommentController commentController = Get.put(CommentController());
 
   @override
   void initState() {
@@ -40,12 +36,11 @@ class _FilesBoxState extends State<FilesBox> {
   }
 
   void addComments() async {
-    Comments? addComments = await addCommentData(context);
+    Comments? addComments = await _addCommentData(context);
 
     if (addComments != null) {
-      setState(() {
-        listComments.add(addComments);
-      });
+      CommentController controller = Get.find();
+      controller.addComment(addComments);
     }
   }
 
@@ -70,56 +65,12 @@ class _FilesBoxState extends State<FilesBox> {
                 } else if (!snapshot.hasData) {
                   return const Text('No data available');
                 } else {
-                  fileJson file = snapshot.data!;
+                  FileJson file = snapshot.data!;
                   return Column(
                     children: [
-                      columFile(file),
+                      _buildFileColumn(file),
                       const SizedBox(height: 40),
-                      SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            IconButton(
-                                onPressed: () => setState(() => isComents = !isComents),
-                                icon: Icon(
-                                    isComents ? Icons.comments_disabled : Icons.comment_rounded,
-                                    color: ColorsPage.green)),
-                            Visibility(
-                                visible: isComents,
-                                child: ConstrainedBox(
-                                  constraints: const BoxConstraints(maxWidth: 800),
-                                  child: Column(
-                                    children: [
-                                      ListView.builder(
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: listComments.length,
-                                        itemBuilder: (context, index) => ListTile(
-                                          title: Text(listComments[index].title),
-                                          subtitle: Text(listComments[index].description),
-                                          trailing: TextButton(
-                                              onPressed: () =>
-                                                  editComments(listComments[index], context),
-                                              child: const Icon(Icons.edit)),
-                                        ),
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            addComments();
-                                          },
-                                          icon: const Icon(
-                                            Icons.add_circle,
-                                            color: ColorsPage.green,
-                                            size: 30,
-                                          ))
-                                    ],
-                                  ),
-                                )),
-                          ],
-                        ),
-                      )
+                      SizedBox(child: _buildCommentsColumn())
                     ],
                   );
                 }
@@ -129,7 +80,7 @@ class _FilesBoxState extends State<FilesBox> {
         ));
   }
 
-  Widget columFile(file) {
+  Widget _buildFileColumn(FileJson file) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -168,98 +119,150 @@ class _FilesBoxState extends State<FilesBox> {
     );
   }
 
-  Future<Comments?> addCommentData(BuildContext context) async {
-    String? title;
-    String? description;
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Adicionar um comentário'),
-            content: Column(mainAxisSize: MainAxisSize.min, children: [
-              TextField(
-                decoration: const InputDecoration(labelText: 'Titulo:'),
-                onChanged: (value) => title = value,
-              ),
-              TextField(
-                decoration: const InputDecoration(labelText: 'Descrição:'),
-                onChanged: (value) => description = value,
-              )
-            ]),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text('Voltar'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (title != null && description != null) {
-                    Get.back();
-                  } else {
-                    showSnackBar(context: context, label: "Dados invalidos");
-                  }
-                },
-                child: const Text('OK'),
-              )
-            ],
-          );
-        });
-    if (title != null && description != null) {
-      return Comments(title: title!, description: description!);
-    } else {
-      return null;
-    }
+  Widget _buildCommentsColumn() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        IconButton(
+            onPressed: () => commentController.toggleCommentsVisibility(),
+            icon: Obx(
+              () => Icon(
+                  commentController.isComments.value
+                      ? Icons.comments_disabled
+                      : Icons.comment_rounded,
+                  color: ColorsPage.green),
+            )),
+        Obx(
+          () => Visibility(
+              visible: commentController.isComments.value,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: Column(
+                  children: [
+                    ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: commentController.listComments.length,
+                        separatorBuilder: (_, __) => const Divider(),
+                        itemBuilder: (_, index) {
+                          Comments itens = commentController.listComments[index];
+                          return ListTile(
+                            title: Text(itens.title),
+                            subtitle: Text(itens.description),
+                            trailing: TextButton(
+                                onPressed: () => _editComments(itens, context),
+                                child: const Icon(Icons.edit)),
+                          );
+                        }),
+                    IconButton(
+                        onPressed: () {
+                          addComments();
+                        },
+                        icon: const Icon(
+                          Icons.add_circle,
+                          color: ColorsPage.green,
+                          size: 30,
+                        ))
+                  ],
+                ),
+              )),
+        ),
+      ],
+    );
   }
+}
 
-  Future<void> editComments(Comments commentsMod, BuildContext context) async {
-    final updatedComment = await showDialog(
-        context: context,
-        builder: (context) {
-          TextEditingController titleController = TextEditingController(text: commentsMod.title);
-          TextEditingController descriptionController =
-              TextEditingController(text: commentsMod.description);
-
-          return AlertDialog(
-            title: const Text('Editar ou deletar um comentario:'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: titleController,
-                  decoration: const InputDecoration(labelText: 'Título'),
-                ),
-                TextField(
-                  controller: descriptionController,
-                  decoration: const InputDecoration(labelText: 'Decoração'),
-                ),
-              ],
+Future<Comments?> _addCommentData(BuildContext context) async {
+  String? title;
+  String? description;
+  await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Adicionar um comentário'),
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            TextField(
+              decoration: const InputDecoration(labelText: 'Titulo:'),
+              onChanged: (value) => title = value,
             ),
-            actions: [
-              ElevatedButton(
-                onPressed: () {},
-                style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(ColorsPage.red)),
-                child: const Text('Deletar'),
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    final newComment = Comments(
-                        title: titleController.text, description: descriptionController.text);
-                    Get.back(result: newComment);
-                  },
-                  child: const Text('Salvar')),
-            ],
-          );
-        });
-
-    if (updatedComment != null) {
-      setState(() {
-        final index = listComments.indexWhere((item) => item == commentsMod);
-        if (index >= 0) {
-          listComments[index] = updatedComment;
-        }
+            TextField(
+              decoration: const InputDecoration(labelText: 'Descrição:'),
+              onChanged: (value) => description = value,
+            )
+          ]),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Voltar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (title != null && description != null) {
+                  Get.back();
+                } else {
+                  showSnackBar(context: context, label: "Dados invalidos");
+                }
+              },
+              child: const Text('OK'),
+            )
+          ],
+        );
       });
-    }
+  if (title != null && description != null) {
+    return Comments(title: title!, description: description!);
+  } else {
+    return null;
+  }
+}
+
+Future<void> _editComments(Comments commentsMod, BuildContext context) async {
+  final updatedComment = await showDialog(
+      context: context,
+      builder: (context) {
+        TextEditingController titleController = TextEditingController(text: commentsMod.title);
+        TextEditingController descriptionController =
+            TextEditingController(text: commentsMod.description);
+
+        return AlertDialog(
+          title: const Text('Editar ou deletar um comentario:'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(labelText: 'Título'),
+              ),
+              TextField(
+                controller: descriptionController,
+                decoration: const InputDecoration(labelText: 'Decoração'),
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {},
+              style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(ColorsPage.red)),
+              child: const Text('Deletar'),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  final newComment = Comments(
+                      id: commentsMod.id,
+                      title: titleController.text,
+                      description: descriptionController.text);
+                  Get.back(result: newComment);
+                },
+                child: const Text('Salvar')),
+          ],
+        );
+      });
+
+  if (updatedComment != null) {
+    CommentController controller = Get.find();
+    controller.editComment(updatedComment, commentsMod);
   }
 }

@@ -1,6 +1,7 @@
 class Comments {
+  int? id;
   late String title;
   late String description;
 
-  Comments({required this.title, required this.description});
+  Comments({this.id, required this.title, required this.description});
 }

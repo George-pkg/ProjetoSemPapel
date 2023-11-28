@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 // components/widgets
-import 'package:sem_papel/components/api/list_box_api.dart';
-import 'package:sem_papel/components/api/upload_file.dart';
+import 'package:sem_papel/data/http/list_box_api.dart';
+import 'package:sem_papel/data/dio/upload_file.dart';
 import 'package:sem_papel/components/appbar_dynamic.dart';
 import 'package:sem_papel/components/backgroud/backgroud.dart';
 import 'package:sem_papel/components/qr_gerator.dart';

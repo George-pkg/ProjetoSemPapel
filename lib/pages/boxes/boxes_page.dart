@@ -13,16 +13,13 @@ class Boxes extends StatefulWidget {
 }
 
 class _BoxesState extends State<Boxes> {
-  final String id = Get.parameters['id'] ?? 'N/A';
+  final String id = Get.parameters['id']!;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth > 700) {
-            return BoxesDesktop(id: id);
-          } else {
-            return BoxesMobile(id: id);
-          }
+          bool isDesktop = constraints.maxWidth > 700;
+          return isDesktop ? BoxesDesktop(id: id) : BoxesMobile(id: id);
         },
       );
 }
