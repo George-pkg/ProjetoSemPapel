@@ -40,7 +40,7 @@ class _NewBoxState extends State<NewBox> {
         child: Stack(
           children: [
             // backgroud alinhado em baixo
-            isDesktop ? deskotBackgroud(context) : mobileBackgroud(),
+            isDesktop ? deskotBackgroud() : mobileBackgroud(),
             // um Scaffold para o corpo da pagina
             Scaffold(
               appBar: appBarDaynamic(context),

@@ -34,7 +34,7 @@ class _SearchBoxState extends State<SearchBox> {
           decoration: const BoxDecoration(color: ColorsPage.whiteSmoke),
           child: Stack(
             children: [
-              isDesktop ? deskotBackgroud(context) : mobileBackgroud(),
+              isDesktop ? deskotBackgroud() : mobileBackgroud(),
               Scaffold(
                 appBar: appBarDaynamic(context),
                 backgroundColor: Colors.transparent,

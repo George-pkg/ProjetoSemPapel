@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:sem_papel/utils/colors.dart';
 
-Widget deskotBackgroud(context) {
+Widget deskotBackgroud() {
   return Align(
     alignment: Alignment.bottomCenter,
     child: SizedBox(
-      height: MediaQuery.of(context).size.height * 0.3,
-      width: MediaQuery.of(context).size.width * 0.5,
+      height: Get.height * 0.3,
+      width: Get.width * 0.5,
       child: Transform.scale(
         scale: 2,
         child: SvgPicture.asset(

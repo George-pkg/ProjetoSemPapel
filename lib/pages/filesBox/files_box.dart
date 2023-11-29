@@ -2,7 +2,6 @@
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:sem_papel/components/show_snackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 // components/widgets
 import 'package:sem_papel/components/appbar_dynamic.dart';
@@ -36,7 +35,7 @@ class _FilesBoxState extends State<FilesBox> {
   }
 
   void addComments() async {
-    Comments? addComments = await _addCommentData(context);
+    Comments? addComments = await _addCommentData();
 
     if (addComments != null) {
       CommentController controller = Get.find();
@@ -56,10 +55,11 @@ class _FilesBoxState extends State<FilesBox> {
               future: futureFile,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                      child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: const CircularProgressIndicator()));
+                  return Container(
+                      alignment: Alignment.center,
+                      height: context.mediaQuerySize.height,
+                      width: context.mediaQuerySize.width,
+                      child: const CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 } else if (!snapshot.hasData) {
@@ -152,7 +152,7 @@ class _FilesBoxState extends State<FilesBox> {
                             title: Text(itens.title),
                             subtitle: Text(itens.description),
                             trailing: TextButton(
-                                onPressed: () => _editComments(itens, context),
+                                onPressed: () => _editComments(itens),
                                 child: const Icon(Icons.edit)),
                           );
                         }),
@@ -174,44 +174,41 @@ class _FilesBoxState extends State<FilesBox> {
   }
 }
 
-Future<Comments?> _addCommentData(BuildContext context) async {
+Future<Comments?> _addCommentData() async {
   String? title;
   String? description;
-  await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Adicionar um comentário'),
-          content: Column(mainAxisSize: MainAxisSize.min, children: [
-            TextField(
-              decoration: const InputDecoration(labelText: 'Titulo:'),
-              onChanged: (value) => title = value,
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Descrição:'),
-              onChanged: (value) => description = value,
-            )
-          ]),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: const Text('Voltar'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (title != null && description != null) {
-                  Get.back();
-                } else {
-                  showSnackBar(context: context, label: "Dados invalidos");
-                }
-              },
-              child: const Text('OK'),
-            )
-          ],
-        );
-      });
+  await Get.defaultDialog(
+    title: 'Adicionar um comentário',
+    content: Column(mainAxisSize: MainAxisSize.min, children: [
+      TextField(
+        decoration: const InputDecoration(labelText: 'Titulo:'),
+        onChanged: (value) => title = value,
+      ),
+      TextField(
+        decoration: const InputDecoration(labelText: 'Descrição:'),
+        onChanged: (value) => description = value,
+      )
+    ]),
+    actions: <Widget>[
+      TextButton(
+        onPressed: () {
+          Get.back();
+        },
+        child: const Text('Voltar'),
+      ),
+      ElevatedButton(
+        onPressed: () {
+          if (title != null && description != null) {
+            Get.back();
+          } else {
+            Get.snackbar('erro', 'o comentario não pode estar vazio');
+          }
+        },
+        child: const Text('OK'),
+      )
+    ],
+  );
+
   if (title != null && description != null) {
     return Comments(title: title!, description: description!);
   } else {
@@ -219,50 +216,49 @@ Future<Comments?> _addCommentData(BuildContext context) async {
   }
 }
 
-Future<void> _editComments(Comments commentsMod, BuildContext context) async {
-  final updatedComment = await showDialog(
-      context: context,
-      builder: (context) {
-        TextEditingController titleController = TextEditingController(text: commentsMod.title);
-        TextEditingController descriptionController =
-            TextEditingController(text: commentsMod.description);
+Future<void> _editComments(Comments commentsMod) async {
+  TextEditingController titleController = TextEditingController(text: commentsMod.title);
+  TextEditingController descriptionController =
+      TextEditingController(text: commentsMod.description);
 
-        return AlertDialog(
-          title: const Text('Editar ou deletar um comentario:'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: titleController,
-                decoration: const InputDecoration(labelText: 'Título'),
-              ),
-              TextField(
-                controller: descriptionController,
-                decoration: const InputDecoration(labelText: 'Decoração'),
-              ),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {},
-              style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(ColorsPage.red)),
-              child: const Text('Deletar'),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  final newComment = Comments(
-                      id: commentsMod.id,
-                      title: titleController.text,
-                      description: descriptionController.text);
-                  Get.back(result: newComment);
-                },
-                child: const Text('Salvar')),
-          ],
-        );
-      });
-
-  if (updatedComment != null) {
+  final updateComment = await Get.defaultDialog(
+    title: 'Editar ou deletar um comentario:',
+    contentPadding: const EdgeInsets.all(20),
+    content: Column(
+      children: [
+        TextField(
+          controller: titleController,
+          decoration: const InputDecoration(labelText: 'Título'),
+        ),
+        TextField(
+          controller: descriptionController,
+          decoration: const InputDecoration(labelText: 'Decoração'),
+        ),
+      ],
+    ),
+    actions: [
+      ElevatedButton(
+        onPressed: () {},
+        style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(ColorsPage.red)),
+        child: const Text('Deletar'),
+      ),
+      ElevatedButton(
+          onPressed: () {
+            final newComment = Comments(
+                id: commentsMod.id,
+                title: titleController.text,
+                description: descriptionController.text);
+            if (titleController.text != '' && descriptionController.text != '') {
+              Get.back(result: newComment);
+            } else {
+              Get.snackbar('erro', 'o comentario não ppode estar vazio');
+            }
+          },
+          child: const Text('Salvar')),
+    ],
+  );
+  if (updateComment != null) {
     CommentController controller = Get.find();
-    controller.editComment(updatedComment, commentsMod);
+    controller.editComment(updateComment, commentsMod);
   }
 }
