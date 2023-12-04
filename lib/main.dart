@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 //pages
 import 'package:sem_papel/routes/routes.dart';
+import 'package:sem_papel/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sem Papel',
-      theme: ThemeData(primarySwatch: Colors.green),
+      theme: AppTheme.getAppTheme(),
       getPages: Routes.routes,
     );
   }

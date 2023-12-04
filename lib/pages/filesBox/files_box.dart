@@ -114,7 +114,8 @@ class _FilesBoxState extends State<FilesBox> {
                   color: ColorsPage.green, fontSize: 18, fontFamily: "Goldplay-black")),
         ),
         ElevatedButton(
-            onPressed: () => launchUrl(Uri.parse(file.url!)), child: const Text('Abrir')),
+            onPressed: () => launchUrl(Uri.parse(file.url!)),
+            child: const Text('Abrir', style: TextStyle(color: Colors.white))),
       ],
     );
   }

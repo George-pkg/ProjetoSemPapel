@@ -137,16 +137,13 @@ class _BoxesState extends State<Boxes> {
                 setState(() {
                   _futureBoxDice = listBox(id);
                 });
-                if (!context.mounted) return;
                 showSnackBar(
-                    context: context, label: "arquivo enviado com sucesso!", isErro: false);
+                    context: Get.context!, label: "arquivo enviado com sucesso!", isErro: false);
               } catch (error) {
-                if (!context.mounted) return;
-                showSnackBar(context: context, label: "Erro ao enviar arquivo ao servidor!");
+                showSnackBar(context: Get.context!, label: "Erro ao enviar arquivo ao servidor!");
               }
             } else {
-              if (!context.mounted) return;
-              showSnackBar(context: context, label: "Arquivo não selecionado!");
+              showSnackBar(context: Get.context!, label: "Arquivo não selecionado!");
             }
           },
           child: const Text(

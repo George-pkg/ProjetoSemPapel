@@ -1,4 +1,6 @@
+// libs
 import 'package:get/get.dart';
+// models/utils
 import 'package:sem_papel/models/comments_models.dart';
 
 class CommentController extends GetxController {

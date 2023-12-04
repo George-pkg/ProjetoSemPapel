@@ -1,0 +1,19 @@
+import 'package:flutter/material.dart';
+import 'package:sem_papel/utils/colors.dart';
+
+class AppTheme {
+  static ThemeData getAppTheme() {
+    return ThemeData(
+      primarySwatch: Colors.green,
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: ColorsPage.green,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(ColorsPage.green),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+        ),
+      ),
+    );
+  }
+}

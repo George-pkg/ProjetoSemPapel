@@ -43,11 +43,16 @@ class BoxOpen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 50),
           child: ElevatedButton(
-              style: const ButtonStyle(fixedSize: MaterialStatePropertyAll(Size(150, 40))),
+              style: const ButtonStyle(
+                  fixedSize: MaterialStatePropertyAll(Size(150, 40)),
+                  backgroundColor: MaterialStatePropertyAll(ColorsPage.green)),
               onPressed: () {
                 Get.toNamed(route);
               },
-              child: const Text('Abrir Box')),
+              child: const Text(
+                'Abrir Box',
+                style: TextStyle(color: Colors.white),
+              )),
         )
       ]),
     );

@@ -15,8 +15,12 @@ class UploadFile {
   test(List<int> bytes, String name, dynamic id, String extension) async {
     final String file;
 
-    if (extension == "jpeg" || extension == "png" || extension == "jpg") {
+    if (extension == "jpeg" || extension == "png" || extension == "jpg" || extension == "webp") {
       file = "image";
+    } else if (extension == "mp4" || extension == "mov" || extension == "wmv") {
+      file = "video";
+    } else if (extension == "pdf") {
+      file = "document";
     } else {
       file = "application";
     }

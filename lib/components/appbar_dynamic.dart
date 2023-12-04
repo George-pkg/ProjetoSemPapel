@@ -11,12 +11,14 @@ AppBar appBarDaynamic(BuildContext context) {
         onPressed: () {
           Get.back();
         },
-        icon: const Icon(Icons.arrow_back_ios_new)),
+        icon: const Icon(Icons.arrow_back_ios_new),
+        color: Colors.white),
     title: IconButton(
         onPressed: () {
           Get.toNamed('/');
         },
-        icon: const Icon(Icons.home)),
+        icon: const Icon(Icons.home),
+        color: Colors.white),
     backgroundColor: ColorsPage.green,
     actions: [
       ButtonBar(
