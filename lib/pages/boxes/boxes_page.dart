@@ -4,9 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:sem_papel/controller/boxes.controller.dart';
 // components/widgets
-import 'package:sem_papel/data/http/list_box_api.dart';
-import 'package:sem_papel/data/dio/upload_file.dart';
 import 'package:sem_papel/components/appbar_dynamic.dart';
 import 'package:sem_papel/components/backgroud/backgroud.dart';
 import 'package:sem_papel/components/qr_gerator.dart';
@@ -25,21 +24,21 @@ class Boxes extends StatefulWidget {
 }
 
 class _BoxesState extends State<Boxes> {
-  final String id = Get.parameters['id']!;
-  late Future<BoxDice> _futureBoxDice;
-  late UploadFile _uploadFile;
+  late String id;
+  late BoxesController controller;
 
   @override
   void initState() {
     super.initState();
-    _futureBoxDice = listBox(id);
-    _uploadFile = UploadFile();
+    id = Get.parameters['id']!;
+    controller = Get.put(BoxesController(id));
   }
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (context, constraints) {
           bool isDesktop = constraints.maxWidth > 700;
+
           return Container(
             color: ColorsPage.whiteSmoke,
             child: Stack(
@@ -67,7 +66,7 @@ class _BoxesState extends State<Boxes> {
 
   Widget _buildBody(bool isDesktop) {
     return FutureBuilder(
-      future: _futureBoxDice,
+      future: controller.futureBoxDice,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const SizedBox(
@@ -124,24 +123,8 @@ class _BoxesState extends State<Boxes> {
             FilePickerResult? result =
                 await FilePicker.platform.pickFiles(type: FileType.any, withData: true);
 
-            final file = result!.files.first;
-
-            if (result.files.isNotEmpty) {
-              List<int> bytes = file.bytes!.cast();
-              var name = file.name;
-
-              try {
-                await _uploadFile.test(bytes, name, id, file.extension!);
-
-                // Atualiza os dados da caixa após o envio bem-sucedido do arquivo
-                setState(() {
-                  _futureBoxDice = listBox(id);
-                });
-                showSnackBar(
-                    context: Get.context!, label: "arquivo enviado com sucesso!", isErro: false);
-              } catch (error) {
-                showSnackBar(context: Get.context!, label: "Erro ao enviar arquivo ao servidor!");
-              }
+            if (result!.files.isNotEmpty) {
+              controller.uploadAndRefresh(result, id);
             } else {
               showSnackBar(context: Get.context!, label: "Arquivo não selecionado!");
             }

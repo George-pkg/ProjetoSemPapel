@@ -21,7 +21,7 @@ class BoxesController extends GetxController {
   // função para atualizar a interface quando o estado muda
   void refreshBoxDice() {
     futureBoxDice = listBox(id);
-    update(); 
+    update();
   }
 
   Future<void> uploadAndRefresh(FilePickerResult result, String id) async {
@@ -29,7 +29,7 @@ class BoxesController extends GetxController {
     List<int> bytes = file.bytes!.cast();
     var name = file.name;
     try {
-      await uploadFile.test(bytes, name, id, file.extension!);
+      await uploadFile.upload(bytes, name, id, file.extension!);
       refreshBoxDice();
       showSnackBar(context: Get.context!, label: "Arquivo enviado com sucesso!", isErro: false);
     } catch (error) {

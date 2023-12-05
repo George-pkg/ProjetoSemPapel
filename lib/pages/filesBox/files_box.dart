@@ -2,6 +2,7 @@
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
+import 'package:sem_papel/components/decoration_input.dart';
 import 'package:url_launcher/url_launcher.dart';
 // components/widgets
 import 'package:sem_papel/components/appbar_dynamic.dart';
@@ -180,13 +181,16 @@ Future<Comments?> _addCommentData() async {
   String? description;
   await Get.defaultDialog(
     title: 'Adicionar um comentário',
+    titlePadding: const EdgeInsets.all(20),
+    contentPadding: const EdgeInsets.all(20),
     content: Column(mainAxisSize: MainAxisSize.min, children: [
       TextField(
-        decoration: const InputDecoration(labelText: 'Titulo:'),
+        decoration: decorationInput('Título', ColorsPage.green),
         onChanged: (value) => title = value,
       ),
+      const SizedBox(height: 15),
       TextField(
-        decoration: const InputDecoration(labelText: 'Descrição:'),
+        decoration: decorationInput('Descrição', ColorsPage.green),
         onChanged: (value) => description = value,
       )
     ]),
@@ -199,11 +203,10 @@ Future<Comments?> _addCommentData() async {
       ),
       ElevatedButton(
         onPressed: () {
-          if (title != null && description != null) {
-            Get.back();
-          } else {
+          if (title == null && description == null) {
             Get.snackbar('erro', 'o comentario não pode estar vazio');
           }
+          Get.back();
         },
         child: const Text('OK'),
       )
@@ -224,16 +227,18 @@ Future<void> _editComments(Comments commentsMod) async {
 
   final updateComment = await Get.defaultDialog(
     title: 'Editar ou deletar um comentario:',
+    titlePadding: const EdgeInsets.all(20),
     contentPadding: const EdgeInsets.all(20),
     content: Column(
       children: [
         TextField(
           controller: titleController,
-          decoration: const InputDecoration(labelText: 'Título'),
+          decoration: decorationInput('Título', ColorsPage.green),
         ),
+        const SizedBox(height: 15),
         TextField(
           controller: descriptionController,
-          decoration: const InputDecoration(labelText: 'Decoração'),
+          decoration: decorationInput('Descrição', ColorsPage.green),
         ),
       ],
     ),

@@ -12,7 +12,7 @@ class UploadFile {
 
   // * rest api
 
-  test(List<int> bytes, String name, dynamic id, String extension) async {
+  upload(List<int> bytes, String name, dynamic id, String extension) async {
     final String file;
 
     if (extension == "jpeg" || extension == "png" || extension == "jpg" || extension == "webp") {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // components/widgets
 import 'package:sem_papel/components/decoration_input.dart';
+import 'package:sem_papel/controller/login.controller.dart';
 // models/utils
 import 'package:sem_papel/utils/colors.dart';
 
@@ -17,6 +18,7 @@ class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController senha = TextEditingController();
   final _validationKey = GlobalKey<FormState>();
+  final LoginController _loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class _LoginState extends State<Login> {
                     TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         decoration: decorationInput('Email', ColorsPage.blueDark),
-                        controller: email,
+                        onChanged: _loginController.email,
                         validator: (value) {
                           if (value == null || value == '') {
                             return "O Email não pode ser nulo";
@@ -71,7 +73,7 @@ class _LoginState extends State<Login> {
                       obscureText: true,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: decorationInput('Password', ColorsPage.blueDark),
-                      controller: senha,
+                      onChanged: _loginController.password,
                       validator: (value) {
                         if (value == null || value == '') {
                           return "A senha não pode ser nula";
