@@ -50,10 +50,12 @@ class _BoxesState extends State<Boxes> {
                   body: SingleChildScrollView(
                     child: Center(
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.7,
+                        width: isDesktop
+                            ? MediaQuery.of(context).size.width * 0.7
+                            : MediaQuery.of(context).size.width * 0.95,
                         color: Colors.white70,
                         padding: const EdgeInsets.only(top: 60),
-                        child: _buildBody(isDesktop),
+                        child: Obx(() => _buildBody(isDesktop)),
                       ),
                     ),
                   ),
@@ -66,7 +68,7 @@ class _BoxesState extends State<Boxes> {
 
   Widget _buildBody(bool isDesktop) {
     return FutureBuilder(
-      future: controller.futureBoxDice,
+      future: controller.futureBoxDice.value,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const SizedBox(
@@ -122,10 +124,10 @@ class _BoxesState extends State<Boxes> {
           onPressed: () async {
             FilePickerResult? result =
                 await FilePicker.platform.pickFiles(type: FileType.any, withData: true);
-
-            if (result!.files.isNotEmpty) {
-              controller.uploadAndRefresh(result, id);
-            } else {
+            try {
+              controller.uploadAndRefresh(result!, id);
+              return;
+            } catch (e) {
               showSnackBar(context: Get.context!, label: "Arquivo não selecionado!");
             }
           },

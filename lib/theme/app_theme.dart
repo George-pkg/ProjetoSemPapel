@@ -4,6 +4,7 @@ import 'package:sem_papel/utils/colors.dart';
 class AppTheme {
   static ThemeData getAppTheme() {
     return ThemeData(
+      scaffoldBackgroundColor: Colors.white,
       primarySwatch: Colors.green,
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: ColorsPage.green,

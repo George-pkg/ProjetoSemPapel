@@ -7,4 +7,5 @@ class ColorsPage {
   static const Color red = Color.fromARGB(255, 226, 89, 89);
   static const Color gray = Color.fromARGB(255, 45, 45, 44);
   static const Color whiteSmoke = Color.fromARGB(255, 242, 240, 248);
+  static const Color blueAccent = Color.fromARGB(255, 175, 220, 250);
 }

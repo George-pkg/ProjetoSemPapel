@@ -1,24 +1,19 @@
 // libs
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
+import 'package:sem_papel/routes/pages.dart';
 //pages
-import 'package:sem_papel/routes/routes.dart';
 import 'package:sem_papel/theme/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
+  runApp(
+    GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sem Papel',
       theme: AppTheme.getAppTheme(),
-      getPages: Routes.routes,
-    );
-  }
+      initialRoute: Pages.initial,
+      getPages: Pages.routes,
+      defaultTransition: Transition.fade,
+    ),
+  );
 }

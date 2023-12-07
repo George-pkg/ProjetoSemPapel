@@ -1,21 +1,30 @@
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
-  var email = ''.obs; // Variável observável para o nome de usuário
-  var password = ''.obs; // Variável observável para a senha
+  var email = ''.obs;
+  var password = ''.obs;
+  var isUsuarioAutenticado = false.obs;
 
   void setEmail(String value) => email.value = value;
   void setPassword(String value) => password.value = value;
 
   // Função para validar o login
   bool validateLogin() {
-    // Verifica se o usuário e a senha estão corretos (implemente sua lógica aqui)
-    if (email.value == 'usuario' && password.value == 'senha') {
+    if (email.value.contains("@gmail.com") && password.value == '12345678') {
       // Se estiverem corretos, retorna true
+      isUsuarioAutenticado.value = true;
       return true;
     } else {
       // Se estiverem incorretos, retorna false
       return false;
     }
+  }
+
+  void fazerLogin() {
+    isUsuarioAutenticado.value = true;
+  }
+
+  void fazerLogout() {
+    isUsuarioAutenticado.value = false;
   }
 }
