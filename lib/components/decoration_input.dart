@@ -1,7 +1,7 @@
 // libs
 import 'package:flutter/material.dart';
 // models/utils
-import 'package:sem_papel/utils/colors.dart';
+import 'package:master/utils/colors.dart';
 
 InputDecoration decorationInput(
   String label,

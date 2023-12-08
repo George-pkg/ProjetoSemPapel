@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 // models/utils
-import 'package:sem_papel/models/create_box_list.dart';
+import 'package:master/models/create_box_list.dart';
 
 Future<CreateBoxList> createBoxes(String title) async {
   try {

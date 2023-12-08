@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 // models/utils
-import 'package:sem_papel/models/box_dice.dart';
+import 'package:master/models/box_dice.dart';
 
 Future<BoxDice> listBox(idPage) async {
   try {

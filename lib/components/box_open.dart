@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // models/utils
-import 'package:sem_papel/utils/colors.dart';
+import 'package:master/utils/colors.dart';
 
 class BoxOpen extends StatelessWidget {
   final Color color;

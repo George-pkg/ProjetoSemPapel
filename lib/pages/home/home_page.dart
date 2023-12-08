@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 // components/widgets
-import 'package:sem_papel/components/appbar_dynamic.dart';
-import 'package:sem_papel/components/backgroud/backgroud.dart';
-import 'package:sem_papel/components/box_open.dart';
+import 'package:master/components/appbar_dynamic.dart';
+import 'package:master/components/backgroud/backgroud.dart';
+import 'package:master/components/box_open.dart';
 // models/utils
-import 'package:sem_papel/utils/colors.dart';
+import 'package:master/utils/colors.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

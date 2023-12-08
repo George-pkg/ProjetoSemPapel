@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:sem_papel/utils/colors.dart';
+import 'package:master/utils/colors.dart';
 
 Widget deskotBackgroud() {
   return Align(

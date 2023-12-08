@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // components/widgets
-import 'package:sem_papel/components/backgroud/backgroud.dart';
-import 'package:sem_papel/components/decoration_input.dart';
-import 'package:sem_papel/controller/login.controller.dart';
+import 'package:master/components/backgroud/backgroud.dart';
+import 'package:master/components/decoration_input.dart';
+import 'package:master/controller/login.controller.dart';
 // models/utils
-import 'package:sem_papel/data/api/google/google_sing_in_api.dart';
-import 'package:sem_papel/utils/colors.dart';
+import 'package:master/data/api/google/google_sing_in_api.dart';
+import 'package:master/utils/colors.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -157,7 +157,21 @@ class _LoginState extends State<Login> {
   }
 
   Future singInGoogle() async {
-    await GoogleSingInApi.login();
+    final user = await GoogleSingInApi.login();
+
+    if (user == null) {
+      Get.snackbar('erro', 'Email invalido', backgroundColor: ColorsPage.red);
+    } else {
+      Get.defaultDialog(
+          content: Column(
+        children: [
+          CircleAvatar(
+            radius: 40,
+            backgroundImage: NetworkImage(user.photoUrl!),
+          )
+        ],
+      ));
+    }
   }
 
   validationBox() {

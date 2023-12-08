@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 // models/utils
-import 'package:sem_papel/models/file_json.dart';
+import 'package:master/models/file_json.dart';
 
 Future<FileJson> fileList(idFile) async {
   try {

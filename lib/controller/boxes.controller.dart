@@ -2,11 +2,11 @@
 import 'package:get/get.dart';
 import 'package:file_picker/file_picker.dart';
 // components/widgets
-import 'package:sem_papel/components/show_snackbar.dart';
-import 'package:sem_papel/data/dio/upload_file.dart';
-import 'package:sem_papel/data/http/list_box_api.dart';
+import 'package:master/components/show_snackbar.dart';
+import 'package:master/data/dio/upload_file.dart';
+import 'package:master/data/http/list_box_api.dart';
 // models/utils
-import 'package:sem_papel/models/box_dice.dart';
+import 'package:master/models/box_dice.dart';
 
 class BoxesController extends GetxController {
   final String id;

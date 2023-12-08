@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 // components/widgets
-import 'package:sem_papel/data/http/create_box.dart';
-import 'package:sem_papel/components/backgroud/backgroud.dart';
-import 'package:sem_papel/components/decoration_input.dart';
-import 'package:sem_papel/components/show_snackbar.dart';
-import 'package:sem_papel/components/appbar_dynamic.dart';
+import 'package:master/data/http/create_box.dart';
+import 'package:master/components/backgroud/backgroud.dart';
+import 'package:master/components/decoration_input.dart';
+import 'package:master/components/show_snackbar.dart';
+import 'package:master/components/appbar_dynamic.dart';
 // models/utils
-import 'package:sem_papel/models/create_box_list.dart';
-import 'package:sem_papel/utils/colors.dart';
+import 'package:master/models/create_box_list.dart';
+import 'package:master/utils/colors.dart';
 
 class NewBox extends StatefulWidget {
   const NewBox({super.key});

@@ -4,17 +4,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:sem_papel/controller/boxes.controller.dart';
+import 'package:master/controller/boxes.controller.dart';
 // components/widgets
-import 'package:sem_papel/components/appbar_dynamic.dart';
-import 'package:sem_papel/components/backgroud/backgroud.dart';
-import 'package:sem_papel/components/qr_gerator.dart';
-import 'package:sem_papel/components/show_snackbar.dart';
+import 'package:master/components/appbar_dynamic.dart';
+import 'package:master/components/backgroud/backgroud.dart';
+import 'package:master/components/qr_gerator.dart';
+import 'package:master/components/show_snackbar.dart';
 // models/utils
-import 'package:sem_papel/models/box_dice.dart';
-import 'package:sem_papel/utils/colors.dart';
-import 'package:sem_papel/utils/convert_time.dart';
-import 'package:sem_papel/utils/file_size.dart';
+import 'package:master/models/box_dice.dart';
+import 'package:master/utils/colors.dart';
+import 'package:master/utils/convert_time.dart';
+import 'package:master/utils/file_size.dart';
 
 class Boxes extends StatefulWidget {
   const Boxes({super.key});

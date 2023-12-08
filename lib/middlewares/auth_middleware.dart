@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sem_papel/controller/login.controller.dart';
-import 'package:sem_papel/routes/pages.dart';
+import 'package:master/controller/login.controller.dart';
+import 'package:master/routes/pages.dart';
 
 class AuthMiddleware extends GetMiddleware {
   LoginController loginControllers = Get.put(LoginController());

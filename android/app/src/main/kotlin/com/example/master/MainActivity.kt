@@ -1,4 +1,4 @@
-package com.example.sem_papel
+package com.example.master
 
 import io.flutter.embedding.android.FlutterActivity
 

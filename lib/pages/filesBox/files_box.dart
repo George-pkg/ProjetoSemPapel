@@ -2,20 +2,20 @@
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:sem_papel/components/decoration_input.dart';
+import 'package:master/components/decoration_input.dart';
 import 'package:url_launcher/url_launcher.dart';
 // components/widgets
-import 'package:sem_papel/components/appbar_dynamic.dart';
-import 'package:sem_papel/components/qr_gerator.dart';
-import 'package:sem_papel/data/http/file_list.dart';
+import 'package:master/components/appbar_dynamic.dart';
+import 'package:master/components/qr_gerator.dart';
+import 'package:master/data/http/file_list.dart';
 // models/utils
-import 'package:sem_papel/models/comments_models.dart';
-import 'package:sem_papel/utils/convert_time.dart';
-import 'package:sem_papel/models/file_json.dart';
-import 'package:sem_papel/utils/file_size.dart';
-import 'package:sem_papel/utils/colors.dart';
+import 'package:master/models/comments_models.dart';
+import 'package:master/utils/convert_time.dart';
+import 'package:master/models/file_json.dart';
+import 'package:master/utils/file_size.dart';
+import 'package:master/utils/colors.dart';
 // controller
-import 'package:sem_papel/controller/comments.controller.dart';
+import 'package:master/controller/comments.controller.dart';
 
 class FilesBox extends StatefulWidget {
   const FilesBox({super.key});

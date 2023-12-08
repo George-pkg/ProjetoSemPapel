@@ -1,9 +1,9 @@
 // libs
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sem_papel/routes/pages.dart';
+import 'package:master/routes/pages.dart';
 //pages
-import 'package:sem_papel/theme/app_theme.dart';
+import 'package:master/theme/app_theme.dart';
 
 void main() {
   runApp(
