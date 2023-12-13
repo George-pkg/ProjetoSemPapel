@@ -4,4 +4,7 @@ class GoogleSingInApi {
   static final _googleSingIn = GoogleSignIn();
 
   static Future<GoogleSignInAccount?> login() => _googleSingIn.signIn();
+
+  static Future<GoogleSignInAccount?> logout() => _googleSingIn.signOut();
 }
+

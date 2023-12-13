@@ -1,14 +1,14 @@
 // libs
 import 'package:get/get.dart';
-import 'package:master/middlewares/auth_middleware.dart';
+import 'package:master/configs/middlewares/auth_middleware.dart';
 // pages
-import 'package:master/pages/boxes/boxes_page.dart';
-import 'package:master/pages/filesBox/files_box.dart';
-import 'package:master/pages/home/home_page.dart';
-import 'package:master/pages/login/login.dart';
-import 'package:master/pages/newBox/new_box.dart';
-import 'package:master/pages/qrScan/qr_scan.dart';
-import 'package:master/pages/searchBox/search_box.dart';
+import 'package:master/screen/pages/boxes/boxes_page.dart';
+import 'package:master/screen/pages/filesBox/files_box.dart';
+import 'package:master/screen/pages/home/home_page.dart';
+import 'package:master/screen/pages/login/login.dart';
+import 'package:master/screen/pages/newBox/new_box.dart';
+import 'package:master/screen/pages/qrScan/qr_scan.dart';
+import 'package:master/screen/pages/searchBox/search_box.dart';
 //
 part 'routes.dart';
 
