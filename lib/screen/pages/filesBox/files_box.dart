@@ -47,7 +47,7 @@ class _FilesBoxState extends State<FilesBox> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBarDaynamic(context),
+        appBar: appBarDaynamic(),
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,

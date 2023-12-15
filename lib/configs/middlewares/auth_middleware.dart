@@ -10,13 +10,10 @@ class AuthMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     if (route == Routes.login || route == Routes.qrScan) {
-      print(loginControllers.isUsuarioAutenticado.value);
       return null;
     } else if (loginControllers.isUsuarioAutenticado.value == false) {
-      print(loginControllers.isUsuarioAutenticado.value);
       return const RouteSettings(name: Routes.login);
     } else {
-      print(loginControllers.isUsuarioAutenticado.value == true);
       return null;
     }
   }

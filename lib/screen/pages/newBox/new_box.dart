@@ -43,7 +43,7 @@ class _NewBoxState extends State<NewBox> {
             isDesktop ? deskotBackgroud() : mobileBackgroud(),
             // um Scaffold para o corpo da pagina
             Scaffold(
-              appBar: appBarDaynamic(context),
+              appBar: appBarDaynamic(),
               backgroundColor: Colors.transparent,
               body: _body(),
             )

@@ -2,6 +2,7 @@
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
+import 'package:master/configs/settings/applocal_settings.dart';
 // components/widgets
 import 'package:master/screen/components/box_open.dart';
 import 'package:master/screen/components/appbar_dynamic.dart';
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
           children: [
             isDesktop ? deskotBackgroud() : mobileBackgroud(),
             Scaffold(
-              appBar: appBarDaynamic(context),
+              appBar: appBarDaynamic(),
               backgroundColor: Colors.transparent,
               body: SingleChildScrollView(
                 child: Center(
@@ -75,7 +76,19 @@ class HomePage extends StatelessWidget {
             route: '/Boxes/6557c2d0ffaa140032d59b6e',
             descricao: 'Em análise',
           ),
-        )
+        ),
+        ElevatedButton(
+            onPressed: () async {
+              Map atual = await ApplocalSettings().readLocal();
+              Get.defaultDialog(
+                  content: Column(
+                children: [
+                  CircleAvatar(backgroundImage: NetworkImage(atual['photoUrl'])),
+                  Text(atual['email']),
+                ],
+              ));
+            },
+            child: const Text('teste'))
       ],
     );
   }
@@ -88,28 +101,44 @@ class HomePage extends StatelessWidget {
           child: SvgPicture.asset('assets/images/psp-logo.svg',
               width: 300, colorFilter: const ColorFilter.mode(ColorsPage.gray, BlendMode.srcATop)),
         ),
-        const Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          BoxOpen(
-            label: 'Box1',
-            color: Color.fromRGBO(207, 216, 220, 1),
-            route: '/Boxes/6544fd0dffaa140032d59a72',
-            descricao: 'Modificado há 1 dia',
-          ),
-          BoxOpen(
-            label: 'Box2',
-            color: Color.fromRGBO(207, 216, 220, 1),
-            route: '/Boxes/654e6daeffaa140032d59ac5',
-            descricao: 'Modificado há 5 horas',
-          )
-        ]),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            BoxOpen(
+              label: 'Box1',
+              color: Color.fromRGBO(207, 216, 220, 1),
+              route: '/Boxes/6544fd0dffaa140032d59a72',
+              descricao: 'Modificado há 1 dia',
+            ),
+            BoxOpen(
+              label: 'Box2',
+              color: Color.fromRGBO(207, 216, 220, 1),
+              route: '/Boxes/654e6daeffaa140032d59ac5',
+              descricao: 'Modificado há 5 horas',
+            )
+          ],
+        ),
         const SizedBox(height: 40),
-        const Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          BoxOpen(
+        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          const BoxOpen(
             label: 'Box3',
             color: Color.fromRGBO(207, 216, 220, 1),
             route: '/Boxes/6557c2d0ffaa140032d59b6e',
             descricao: 'Em análise',
           ),
+          ElevatedButton(
+              onPressed: () async {
+                Map atual = await ApplocalSettings().readLocal();
+                Get.defaultDialog(
+                    content: Column(
+                  children: [
+                    CircleAvatar(backgroundImage: NetworkImage(atual['photoUrl'])),
+                    Text(atual['email']),
+                    Text(atual['serverAuthCode']),
+                  ],
+                ));
+              },
+              child: const Text('teste'))
         ])
       ],
     );

@@ -45,7 +45,7 @@ class _BoxesState extends State<Boxes> {
               children: [
                 isDesktop ? deskotBackgroud() : mobileBackgroud(),
                 Scaffold(
-                  appBar: appBarDaynamic(context),
+                  appBar: appBarDaynamic(),
                   backgroundColor: Colors.transparent,
                   body: SingleChildScrollView(
                     child: Center(

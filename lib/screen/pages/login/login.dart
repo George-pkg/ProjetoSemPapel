@@ -163,7 +163,13 @@ class _LoginState extends State<Login> {
     try {
       final user = await GoogleSingInApi.login();
 
-      ApplocalSettings().start
+      ApplocalSettings.setLoacalUser(
+        user!.email,
+        user.id,
+        user.photoUrl!,
+        user.displayName!,
+        user.serverAuthCode!,
+      );
 
       Get.toNamed('/');
       _loginController.fazerLogin();

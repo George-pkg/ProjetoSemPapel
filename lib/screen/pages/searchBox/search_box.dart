@@ -36,7 +36,7 @@ class _SearchBoxState extends State<SearchBox> {
             children: [
               isDesktop ? deskotBackgroud() : mobileBackgroud(),
               Scaffold(
-                appBar: appBarDaynamic(context),
+                appBar: appBarDaynamic(),
                 backgroundColor: Colors.transparent,
                 body: _body(),
               )

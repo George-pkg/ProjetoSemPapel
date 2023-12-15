@@ -1,6 +1,5 @@
 // libs
 import 'package:get/get.dart';
-import 'package:master/configs/middlewares/auth_middleware.dart';
 // pages
 import 'package:master/screen/pages/boxes/boxes_page.dart';
 import 'package:master/screen/pages/filesBox/files_box.dart';

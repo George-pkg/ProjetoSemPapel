@@ -1,31 +1,53 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ApplocalSettings extends ChangeNotifier {
-  late SharedPreferences _prefs;
-
+class ApplocalSettings {
   Map<String, String> localUser = {
     'id': '',
-    'name': '',
-    'photoURL': '',
+    'email': '',
+    'displayName': '',
+    'photoUrl': '',
+    'serverAuthCode': '',
   };
 
-  static saveLocalUser(String name) async {
+  static void setLoacalUser(
+      String email, String id, String photoUrl, String displayName, String serverAuthCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setString('id', name);
+    prefs.setString('id', id);
+    prefs.setString('email', email);
+    prefs.setString('photoUrl', photoUrl);
+    prefs.setString('displayName', displayName);
+    prefs.setString('serverAuthCode', serverAuthCode);
   }
 
-  startSettings() async {
-    await _startPreferences();
-    await _readLocal();
+  cleanLocalUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+
+    return localUser = {
+      'id': '',
+      'email': '',
+      'displayName': '',
+      'photoUrl': '',
+      'serverAuthCode': '',
+    };
   }
 
-  Future<void> _startPreferences() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
+  Future<Map<String, String>> readLocal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  _readLocal() {
-    final local = _prefs.getString('local');
+    final email = prefs.getString('email') ?? 'Null';
+    final id = prefs.getString('id') ?? 'Null';
+    final displayName = prefs.getString('displayName') ?? 'Null';
+    final photoUrl = prefs.getString('photoUrl') ?? 'Null';
+    final serverAuthCode = prefs.getString('serverAuthCode') ?? 'Null';
+
+    return localUser = {
+      'id': id,
+      'email': email,
+      'displayName': displayName,
+      'photoUrl': photoUrl,
+      'serverAuthCode': serverAuthCode,
+    };
   }
 }
