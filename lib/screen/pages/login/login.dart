@@ -23,7 +23,6 @@ class _LoginState extends State<Login> {
   TextEditingController senha = TextEditingController();
   final _validationKey = GlobalKey<FormState>();
   final LoginController _loginController = Get.put(LoginController());
-  // final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
   @override
   Widget build(BuildContext context) {
