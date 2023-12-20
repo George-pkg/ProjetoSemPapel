@@ -166,9 +166,11 @@ class _LoginState extends State<Login> {
         user!.email,
         user.id,
         user.photoUrl!,
-        user.displayName!,
-        user.serverAuthCode!,
+        user.displayName!
       );
+      /*
+        If I ask for "serverAuthCode" access it denies the entire application
+      */
 
       Get.toNamed('/');
       _loginController.fazerLogin();

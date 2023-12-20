@@ -10,14 +10,13 @@ class ApplocalSettings {
   };
 
   static void setLoacalUser(
-      String email, String id, String photoUrl, String displayName, String serverAuthCode) async {
+      String email, String id, String photoUrl, String displayName, ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString('id', id);
     prefs.setString('email', email);
     prefs.setString('photoUrl', photoUrl);
     prefs.setString('displayName', displayName);
-    prefs.setString('serverAuthCode', serverAuthCode);
   }
 
   cleanLocalUser() async {
