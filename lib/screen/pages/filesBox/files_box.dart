@@ -2,6 +2,7 @@
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
+import 'package:master/configs/settings/userlocal_settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:master/screen/components/decoration_input.dart';
 // components/widgets
@@ -28,11 +29,17 @@ class _FilesBoxState extends State<FilesBox> {
   final String idFile = Get.parameters['idFile']!;
   late Future<FileJson> futureFile;
   CommentController commentController = Get.put(CommentController());
+  late Map<String, String> userDataFuture;
 
   @override
   void initState() {
     super.initState();
     futureFile = fileList(idFile);
+    _userDataFuture();
+  }
+
+  void _userDataFuture() async {
+    userDataFuture = await UserLocal().readLocal();
   }
 
   void addComments() async {
@@ -143,19 +150,25 @@ class _FilesBoxState extends State<FilesBox> {
                 constraints: const BoxConstraints(maxWidth: 800),
                 child: Column(
                   children: [
-                    ListView.separated(
+                    ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: commentController.listComments.length,
-                        separatorBuilder: (_, __) => const Divider(),
                         itemBuilder: (_, index) {
                           Comments itens = commentController.listComments[index];
                           return ListTile(
-                            title: Text(itens.title),
+                            leading: CircleAvatar(backgroundImage: NetworkImage(itens.photoUrl)),
+                            title: Text("${itens.name} comentou:"),
                             subtitle: Text(itens.description),
-                            trailing: TextButton(
-                                onPressed: () => _editComments(itens),
-                                child: const Icon(Icons.edit)),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(itens.hour ?? '99:99'),
+                                TextButton(
+                                    onPressed: () => _editComments(itens),
+                                    child: const Icon(Icons.edit)),
+                              ],
+                            ),
                           );
                         }),
                     IconButton(
@@ -174,97 +187,108 @@ class _FilesBoxState extends State<FilesBox> {
       ],
     );
   }
-}
 
-Future<Comments?> _addCommentData() async {
-  String? title;
-  String? description;
-  await Get.defaultDialog(
-    title: 'Adicionar um comentário',
-    titlePadding: const EdgeInsets.all(20),
-    contentPadding: const EdgeInsets.all(20),
-    content: Column(mainAxisSize: MainAxisSize.min, children: [
-      TextField(
-        decoration: decorationInput('Título', ColorsPage.green),
-        onChanged: (value) => title = value,
-      ),
-      const SizedBox(height: 15),
-      TextField(
-        decoration: decorationInput('Descrição', ColorsPage.green),
-        onChanged: (value) => description = value,
-      )
-    ]),
-    actions: <Widget>[
-      TextButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: const Text('Voltar'),
-      ),
-      ElevatedButton(
-        onPressed: () {
-          if (title == null && description == null) {
-            Get.snackbar('erro', 'o comentario não pode estar vazio');
-          }
-          Get.back();
-        },
-        child: const Text('OK'),
-      )
-    ],
-  );
-
-  if (title != null && description != null) {
-    return Comments(title: title!, description: description!);
-  } else {
-    return null;
-  }
-}
-
-Future<void> _editComments(Comments commentsMod) async {
-  TextEditingController titleController = TextEditingController(text: commentsMod.title);
-  TextEditingController descriptionController =
-      TextEditingController(text: commentsMod.description);
-
-  final updateComment = await Get.defaultDialog(
-    title: 'Editar ou deletar um comentario:',
-    titlePadding: const EdgeInsets.all(20),
-    contentPadding: const EdgeInsets.all(20),
-    content: Column(
-      children: [
+  Future<Comments?> _addCommentData() async {
+    String? title;
+    String? description;
+    await Get.defaultDialog(
+      title: 'Adicionar um comentário',
+      titlePadding: const EdgeInsets.all(20),
+      contentPadding: const EdgeInsets.all(20),
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
         TextField(
-          controller: titleController,
-          decoration: decorationInput('Título', ColorsPage.green),
+          decoration:
+              decorationInput('Título', ColorsPage.green, const Color.fromARGB(255, 0, 78, 28)),
+          onChanged: (value) => title = value,
         ),
         const SizedBox(height: 15),
         TextField(
-          controller: descriptionController,
-          decoration: decorationInput('Descrição', ColorsPage.green),
-        ),
-      ],
-    ),
-    actions: [
-      ElevatedButton(
-        onPressed: () {},
-        style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(ColorsPage.red)),
-        child: const Text('Deletar'),
-      ),
-      ElevatedButton(
+          decoration: decorationInput('Descrição', ColorsPage.green, ColorsPage.greenDark),
+          onChanged: (value) => description = value,
+        )
+      ]),
+      actions: <Widget>[
+        TextButton(
           onPressed: () {
-            final newComment = Comments(
-                id: commentsMod.id,
-                title: titleController.text,
-                description: descriptionController.text);
-            if (titleController.text != '' && descriptionController.text != '') {
-              Get.back(result: newComment);
-            } else {
-              Get.snackbar('erro', 'o comentario não ppode estar vazio');
-            }
+            Get.back();
           },
-          child: const Text('Salvar')),
-    ],
-  );
-  if (updateComment != null) {
-    CommentController controller = Get.find();
-    controller.editComment(updateComment, commentsMod);
+          child: const Text('Voltar'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            if (title == null && description == null) {
+              Get.snackbar('erro', 'o comentario não pode estar vazio');
+            }
+            Get.back();
+          },
+          child: const Text('OK'),
+        )
+      ],
+    );
+
+    if (title != null && description != null) {
+      return Comments(
+          title: title!,
+          description: description!,
+          photoUrl: userDataFuture['photoUrl']!,
+          name: userDataFuture['name']!);
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> _editComments(Comments commentsMod) async {
+    TextEditingController titleController = TextEditingController(text: commentsMod.title);
+    TextEditingController descriptionController =
+        TextEditingController(text: commentsMod.description);
+
+    final updateComment = await Get.defaultDialog(
+      title: 'Editar ou deletar um comentario:',
+      titlePadding: const EdgeInsets.all(20),
+      contentPadding: const EdgeInsets.all(20),
+      content: Column(
+        children: [
+          TextField(
+            controller: titleController,
+            decoration: decorationInput('Título', ColorsPage.green, ColorsPage.greenDark),
+          ),
+          const SizedBox(height: 15),
+          TextField(
+            controller: descriptionController,
+            decoration: decorationInput('Descrição', ColorsPage.green, ColorsPage.greenDark),
+          ),
+        ],
+      ),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            CommentController controller = Get.find();
+            controller.deleteComment(commentsMod);
+            Get.back();
+          },
+          style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(ColorsPage.red)),
+          child: const Text('Deletar'),
+        ),
+        ElevatedButton(
+            onPressed: () {
+              final newComment = Comments(
+                  id: commentsMod.id,
+                  title: titleController.text,
+                  description: descriptionController.text,
+                  photoUrl: userDataFuture['photoUrl']!,
+                  name: userDataFuture['name']!);
+              if (titleController.text != '' && descriptionController.text != '') {
+                Get.back(result: newComment);
+              } else {
+                Get.snackbar('erro', 'o comentario não ppode estar vazio');
+              }
+            },
+            child: const Text('Salvar')),
+      ],
+    );
+    if (updateComment != null) {
+      CommentController controller = Get.find();
+      controller.editComment(updateComment, commentsMod);
+    }
   }
 }

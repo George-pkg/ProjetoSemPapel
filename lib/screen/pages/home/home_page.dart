@@ -2,7 +2,7 @@
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:master/configs/settings/applocal_settings.dart';
+import 'package:master/configs/settings/userlocal_settings.dart';
 // components/widgets
 import 'package:master/screen/components/box_open.dart';
 import 'package:master/screen/components/appbar_dynamic.dart';
@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
         ),
         ElevatedButton(
             onPressed: () async {
-              Map atual = await ApplocalSettings().readLocal();
+              Map atual = await UserLocal().readLocal();
               Get.defaultDialog(
                   content: Column(
                 children: [
@@ -128,13 +128,15 @@ class HomePage extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () async {
-                Map atual = await ApplocalSettings().readLocal();
+                Map atual = await UserLocal().readLocal();
                 Get.defaultDialog(
                     content: Column(
                   children: [
                     CircleAvatar(backgroundImage: NetworkImage(atual['photoUrl'])),
+                    const Divider(),
+                    Text(atual['name']),
+                    const SizedBox(height: 10),
                     Text(atual['email']),
-                    Text(atual['serverAuthCode']),
                   ],
                 ));
               },

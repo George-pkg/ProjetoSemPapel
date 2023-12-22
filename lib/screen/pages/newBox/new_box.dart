@@ -36,7 +36,7 @@ class _NewBoxState extends State<NewBox> {
       final bool isDesktop = constraints.maxWidth > 700;
 
       return Container(
-        decoration: const BoxDecoration(color: ColorsPage.whiteSmoke),
+        decoration: const BoxDecoration(color: ColorsPage.blueAccent),
         child: Stack(
           children: [
             // backgroud alinhado em baixo
@@ -83,7 +83,7 @@ class _NewBoxState extends State<NewBox> {
                     },
                     controller: nameBox,
                     keyboardType: TextInputType.text,
-                    decoration: decorationInput("Cria nova caixa", ColorsPage.greenDark)),
+                    decoration: decorationInput("Cria nova caixa", ColorsPage.greenDark, ColorsPage.greenDark)),
                 // espaçamento
                 const SizedBox(height: 20),
                 // botão com validador e mensagem

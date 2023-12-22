@@ -1,7 +1,7 @@
 // libs
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:master/configs/settings/applocal_settings.dart';
+import 'package:master/configs/settings/userlocal_settings.dart';
 // components/widgets
 import 'package:master/screen/components/decoration_input.dart';
 import 'package:master/screen/components/backgroud/backgroud.dart';
@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
           const SizedBox(height: 15),
           TextFormField(
               keyboardType: TextInputType.emailAddress,
-              decoration: decorationInput('Email', ColorsPage.blueDark),
+              decoration: decorationInput('Email', ColorsPage.blueDark, Colors.black),
               onChanged: _loginController.setEmail,
               validator: (value) {
                 if (value == null || value == '') {
@@ -105,7 +105,7 @@ class _LoginState extends State<Login> {
           TextFormField(
             obscureText: true,
             keyboardType: TextInputType.visiblePassword,
-            decoration: decorationInput('Password', ColorsPage.blueDark),
+            decoration: decorationInput('Password', ColorsPage.blueDark, ColorsPage.blueDark),
             onChanged: _loginController.setPassword,
             validator: (value) {
               if (value == null || value == '') {
@@ -162,12 +162,7 @@ class _LoginState extends State<Login> {
     try {
       final user = await GoogleSingInApi.login();
 
-      ApplocalSettings.setLoacalUser(
-        user!.email,
-        user.id,
-        user.photoUrl!,
-        user.displayName!
-      );
+      UserLocal.setLocalUser(user!.email, user.id, user.photoUrl!, user.displayName!);
       /*
         If I ask for "serverAuthCode" access it denies the entire application
       */

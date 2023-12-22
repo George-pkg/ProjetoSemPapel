@@ -40,7 +40,7 @@ class _BoxesState extends State<Boxes> {
           bool isDesktop = constraints.maxWidth > 700;
 
           return Container(
-            color: ColorsPage.whiteSmoke,
+            color: ColorsPage.blueAccent,
             child: Stack(
               children: [
                 isDesktop ? deskotBackgroud() : mobileBackgroud(),

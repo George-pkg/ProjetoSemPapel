@@ -43,8 +43,15 @@ dependencies:
 
   # biblioteca para ler QrCode
   qr_code_scanner: ^1.0.1
+
+  # biblioteca para fazer login com google
   google_sign_in: ^6.1.6
+
+  # biblioteca para guardar arquivo no app/tem disponilibilade para web
   shared_preferences: ^2.2.2
+
+  # biblioteca para ajudar no controle de URL
+  fluro: ^2.0.5
 
 
 

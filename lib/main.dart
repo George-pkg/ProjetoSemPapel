@@ -1,8 +1,8 @@
 // libs
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:master/routes/pages.dart';
+import 'package:flutter/material.dart';
 //pages
+import 'package:master/routes/pages.dart';
 import 'package:master/theme/app_theme.dart';
 
 void main() {

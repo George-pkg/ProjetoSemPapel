@@ -5,7 +5,6 @@ import 'package:master/routes/pages.dart';
 
 class AuthMiddleware extends GetMiddleware {
   LoginController loginControllers = Get.put(LoginController());
-  // LoginController loginControllers = Get.find();
 
   @override
   RouteSettings? redirect(String? route) {

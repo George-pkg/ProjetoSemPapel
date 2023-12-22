@@ -1,34 +1,38 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ApplocalSettings {
+class UserLocal {
   Map<String, String> localUser = {
     'id': '',
     'email': '',
-    'displayName': '',
+    'name': '',
     'photoUrl': '',
-    'serverAuthCode': '',
   };
 
-  static void setLoacalUser(
-      String email, String id, String photoUrl, String displayName, ) async {
+  UserLocal();
+
+  static void setLocalUser(
+    String email,
+    String id,
+    String photoUrl,
+    String name,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setString('id', id);
     prefs.setString('email', email);
     prefs.setString('photoUrl', photoUrl);
-    prefs.setString('displayName', displayName);
+    prefs.setString('name', name);
   }
 
-  cleanLocalUser() async {
+  Future<Map<String, String>> cleanLocalUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
 
     return localUser = {
       'id': '',
       'email': '',
-      'displayName': '',
+      'name': '',
       'photoUrl': '',
-      'serverAuthCode': '',
     };
   }
 
@@ -37,16 +41,14 @@ class ApplocalSettings {
 
     final email = prefs.getString('email') ?? 'Null';
     final id = prefs.getString('id') ?? 'Null';
-    final displayName = prefs.getString('displayName') ?? 'Null';
+    final name = prefs.getString('name') ?? 'Null';
     final photoUrl = prefs.getString('photoUrl') ?? 'Null';
-    final serverAuthCode = prefs.getString('serverAuthCode') ?? 'Null';
 
     return localUser = {
       'id': id,
       'email': email,
-      'displayName': displayName,
+      'name': name,
       'photoUrl': photoUrl,
-      'serverAuthCode': serverAuthCode,
     };
   }
 }

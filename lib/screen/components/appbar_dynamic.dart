@@ -1,7 +1,7 @@
 // libs
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:master/configs/settings/applocal_settings.dart';
+import 'package:master/configs/settings/userlocal_settings.dart';
 import 'package:master/data/api/google/google_sing_in_api.dart';
 // models/utils
 import 'package:master/utils/colors.dart';
@@ -98,7 +98,7 @@ Future<void> logout(LoginController loginController) async {
         onPressed: () {
           loginController.fazerLogout();
           GoogleSingInApi.logout();
-          ApplocalSettings().cleanLocalUser();
+          UserLocal().cleanLocalUser();
           Get.toNamed('/Login');
         },
       ),

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ColorsPage {
-  static const Color blueDark = Color.fromARGB(255, 24, 37, 90);
-  static const Color green = Color.fromARGB(255, 0, 158, 59);
-  static const Color greenDark = Color.fromARGB(255, 1, 102, 37);
-  static const Color red = Color.fromARGB(255, 226, 89, 89);
-  static const Color gray = Color.fromARGB(255, 45, 45, 44);
-  static const Color whiteSmoke = Color.fromARGB(255, 242, 240, 248);
-  static const Color blueAccent = Color.fromARGB(255, 219, 240, 255);
+  static const Color blueDark = Color.fromRGBO(24, 37, 90, 1);
+  static const Color green = Color.fromRGBO(0, 158, 59, 1);
+  static const Color greenDark = Color.fromRGBO(1, 102, 37, 1);
+  static const Color red = Color.fromRGBO(226, 89, 89, 1);
+  static const Color gray = Color.fromRGBO(45, 45, 44, 1);
+  static const Color whiteSmoke = Color.fromRGBO(242, 240, 248, 1);
+  static const Color blueAccent = Color.fromRGBO(219, 240, 255, 1);
+  static const Color veryDarkGreen = Color.fromRGBO(0, 78, 28, 1);
 }

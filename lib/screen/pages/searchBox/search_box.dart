@@ -31,7 +31,7 @@ class _SearchBoxState extends State<SearchBox> {
         final bool isDesktop = constraints.maxWidth > 700;
 
         return Container(
-          decoration: const BoxDecoration(color: ColorsPage.whiteSmoke),
+          decoration: const BoxDecoration(color: ColorsPage.blueAccent),
           child: Stack(
             children: [
               isDesktop ? deskotBackgroud() : mobileBackgroud(),
@@ -73,7 +73,8 @@ class _SearchBoxState extends State<SearchBox> {
                     },
                     controller: nameBox,
                     keyboardType: TextInputType.text,
-                    decoration: decorationInput("Procurar uma caixa", ColorsPage.greenDark)),
+                    decoration: decorationInput(
+                        "Procurar uma caixa", ColorsPage.greenDark, ColorsPage.greenDark)),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {

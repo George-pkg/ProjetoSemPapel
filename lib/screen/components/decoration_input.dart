@@ -6,10 +6,11 @@ import 'package:master/utils/colors.dart';
 InputDecoration decorationInput(
   String label,
   Color colors,
+  Color colorTitle, 
 ) {
   return InputDecoration(
     labelText: label,
-    labelStyle: TextStyle(color: colors),
+    labelStyle: TextStyle(color: colorTitle),
     focusedBorder: OutlineInputBorder(
       borderRadius: const BorderRadius.all(Radius.circular(15)),
       borderSide: BorderSide(color: colors),
