@@ -2,7 +2,6 @@
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:master/configs/settings/userlocal_settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:master/screen/components/decoration_input.dart';
 // components/widgets
@@ -15,7 +14,8 @@ import 'package:master/utils/file_size.dart';
 import 'package:master/models/file_json.dart';
 import 'package:master/utils/convert_time.dart';
 import 'package:master/models/comments_models.dart';
-// controller
+// controller\settings
+import 'package:master/configs/settings/userlocal_settings.dart';
 import 'package:master/configs/controller/comments.controller.dart';
 
 class FilesBox extends StatefulWidget {
@@ -26,11 +26,13 @@ class FilesBox extends StatefulWidget {
 }
 
 class _FilesBoxState extends State<FilesBox> {
+  // variables
   final String idFile = Get.parameters['idFile']!;
   late Future<FileJson> futureFile;
   CommentController commentController = Get.put(CommentController());
   late Map<String, String> userDataFuture;
 
+  // starting variables
   @override
   void initState() {
     super.initState();
@@ -38,10 +40,12 @@ class _FilesBoxState extends State<FilesBox> {
     _userDataFuture();
   }
 
+  // function for get readLocal
   void _userDataFuture() async {
     userDataFuture = await UserLocal().readLocal();
   }
 
+  // function for add comment
   void addComments() async {
     Comments? addComments = await _addCommentData();
 
@@ -69,7 +73,13 @@ class _FilesBoxState extends State<FilesBox> {
                       width: context.mediaQuerySize.width,
                       child: const CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
+                  return Column(
+                    children: [
+                      const Text('Sem conexão de internet',
+                          style: TextStyle(fontFamily: "Goldplay-black")),
+                      Image.asset('./assets/images/no_internet.png', height: 400),
+                    ],
+                  );
                 } else if (!snapshot.hasData) {
                   return const Text('No data available');
                 } else {
@@ -156,17 +166,21 @@ class _FilesBoxState extends State<FilesBox> {
                         itemCount: commentController.listComments.length,
                         itemBuilder: (_, index) {
                           Comments itens = commentController.listComments[index];
+                          bool isUserComment = itens.name == userDataFuture['name'];
                           return ListTile(
                             leading: CircleAvatar(backgroundImage: NetworkImage(itens.photoUrl)),
-                            title: Text("${itens.name} comentou:"),
+                            title: Text(itens.modified
+                                ? "${itens.name} editou o comentario:"
+                                : "${itens.name} comentou:"),
                             subtitle: Text(itens.description),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(itens.hour ?? '99:99'),
-                                TextButton(
-                                    onPressed: () => _editComments(itens),
-                                    child: const Icon(Icons.edit)),
+                                if (isUserComment)
+                                  TextButton(
+                                      onPressed: () => _editComments(itens),
+                                      child: const Icon(Icons.edit)),
+                                Text(commentController.timeToString(itens.time!)),
                               ],
                             ),
                           );
@@ -272,11 +286,13 @@ class _FilesBoxState extends State<FilesBox> {
         ElevatedButton(
             onPressed: () {
               final newComment = Comments(
-                  id: commentsMod.id,
-                  title: titleController.text,
-                  description: descriptionController.text,
-                  photoUrl: userDataFuture['photoUrl']!,
-                  name: userDataFuture['name']!);
+                id: commentsMod.id,
+                title: titleController.text,
+                description: descriptionController.text,
+                photoUrl: commentsMod.photoUrl,
+                name: commentsMod.name,
+                modified: true,
+              );
               if (titleController.text != '' && descriptionController.text != '') {
                 Get.back(result: newComment);
               } else {

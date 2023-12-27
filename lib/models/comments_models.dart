@@ -4,8 +4,8 @@ class Comments {
   late String name;
   late String title;
   late String description;
-  String? hour;
-  bool? modified;
+  String? time;
+  bool modified;
 
   Comments({
     this.id,
@@ -13,8 +13,8 @@ class Comments {
     required this.name,
     required this.title,
     required this.description,
-    this.hour,
-    this.modified,
+    this.time,
+    this.modified = false,
   });
 
   Map<String, dynamic> toJson() {
@@ -24,7 +24,7 @@ class Comments {
       'name': name,
       'title': title,
       'description': description,
-      'hour': hour,
+      'time': time,
       'modified': modified,
     };
   }
@@ -36,7 +36,7 @@ class Comments {
       name: json['name'],
       title: json['title'],
       description: json['description'],
-      hour: json['hour'],
+      time: json['time'],
       modified: json['modified'],
     );
   }

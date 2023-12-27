@@ -76,7 +76,12 @@ class _BoxesState extends State<Boxes> {
             child: Center(child: CircularProgressIndicator()),
           );
         } else if (snapshot.hasError) {
-          return Text(snapshot.error.toString());
+          return Column(
+            children: [
+              const Text('Sem conexão de internet', style: TextStyle(fontFamily: "Goldplay-black")),
+              Image.asset('./assets/images/no_internet.png', height: 400),
+            ],
+          );
         } else {
           return _buildContent(snapshot.data!, isDesktop);
         }
